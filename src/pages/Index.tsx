@@ -273,10 +273,13 @@ const Index = () => {
     if (!availableVideos[index]) return;
     
     const video = availableVideos[index];
-    const playerUrl = videoService.getVideoPlayerUrl(video.url);
     
+    // ВАЖНО: Открываем оригинальную ссылку в новой вкладке для засчитывания просмотров
+    window.open(video.url, '_blank');
+    
+    // Затем открываем модальное окно для отслеживания прогресса
     setCurrentVideo(index);
-    setCurrentPlayerUrl(playerUrl);
+    setCurrentPlayerUrl(video.url);
     setIsPlayerOpen(true);
     setWatchProgress(0);
     setCanSkip(false);
@@ -530,26 +533,19 @@ const Index = () => {
             </DialogTitle>
           </DialogHeader>
           <div className="space-y-4">
-            <div className="aspect-video bg-primary rounded-lg overflow-hidden">
-              {currentPlayerUrl ? (
-                <iframe
-                  src={currentPlayerUrl}
-                  className="w-full h-full"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                  title="Video Player"
-                />
-              ) : (
-                <div className="w-full h-full flex items-center justify-center text-primary text-center">
-                  <div>
-                    <Icon name="Play" size={48} className="mx-auto mb-2" />
-                    <p>Загрузка видео...</p>
-                    <p className="text-sm text-primary mt-2">
-                      Обход геоблокировок активен
-                    </p>
-                  </div>
+            <div className="aspect-video bg-white border border-primary rounded-lg overflow-hidden">
+              <div className="w-full h-full flex items-center justify-center text-primary text-center">
+                <div>
+                  <Icon name="ExternalLink" size={48} className="mx-auto mb-2" />
+                  <p className="font-semibold">Видео открыто в новой вкладке</p>
+                  <p className="text-sm text-primary mt-2">
+                    Просмотр засчитается на платформе
+                  </p>
+                  <p className="text-xs text-primary mt-1">
+                    Посмотрите минимум 15 секунд
+                  </p>
                 </div>
-              )}
+              </div>
             </div>
             
             <div className="space-y-2">

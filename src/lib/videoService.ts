@@ -108,13 +108,16 @@ class VideoService {
   getVideoPlayerUrl(url: string): string {
     const platform = this.detectPlatform(url);
     
-    // Система обхода геоблокировок через прокси-сервисы
+    // ВАЖНО: Открываем оригинальные ссылки для засчитывания просмотров в соцсетях
+    // Просто возвращаем оригинальную ссылку, чтобы пользователь попал на платформу
+    return url;
+    
+    // Старый код с прокси оставляем как комментарий:
+    /*
     switch (platform) {
       case 'youtube':
-        // Используем invidious или другие прокси для YouTube
         return this.getYouTubeProxyUrl(url);
       case 'tiktok':
-        // Для TikTok используем embed или API
         return this.getTikTokEmbedUrl(url);
       case 'instagram':
         // Instagram через embed API
