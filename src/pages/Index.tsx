@@ -101,7 +101,7 @@ const Index = () => {
       /youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/shorts\//,
       /tiktok\.com\/.*\/video\/|vm\.tiktok\.com\//,
       /instagram\.com\/p\/|instagram\.com\/reel\//,
-      /vk\.com\/video|vk\.com\/clip|vk\.ru\/video|vk\.ru\/clip/,
+      /vk\.com\/video|vk\.com\/clip|vk\.ru\/video|vk\.ru\/clip|vkvideo\.ru\/clip/,
       /twitch\.tv\/videos\/|clips\.twitch\.tv\//,
       /rutube\.ru\/video\//,
       /zen\.yandex\.ru\/media\//
@@ -229,7 +229,7 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-white">
       {/* Header */}
-      <header className="flex justify-between items-center p-6">
+      <header className="flex justify-center items-center p-6 md:max-w-[585px] md:mx-auto">
         <div className="flex items-center space-x-3">
           <img 
             src="https://cdn.poehali.dev/files/184752ef-65b4-48a2-8f29-7f318c1dc91a.png" 
