@@ -8,6 +8,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Progress } from '@/components/ui/progress';
 import Icon from '@/components/ui/icon';
 import BannerSlot from '@/components/BannerSlot';
+import confetti from 'canvas-confetti';
 import { videoService } from '@/lib/videoService';
 import { adminService } from '@/lib/adminService';
 import { Video, VideoQueue, UserSession } from '@/types/video';
@@ -194,6 +195,24 @@ const Index = () => {
     setHasReposted(true);
   };
 
+  const triggerConfetti = () => {
+    // Конфетти слева
+    confetti({
+      particleCount: 100,
+      spread: 70,
+      origin: { x: 0, y: 0.6 },
+      colors: ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff']
+    });
+    
+    // Конфетти справа
+    confetti({
+      particleCount: 100,
+      spread: 70,
+      origin: { x: 1, y: 0.6 },
+      colors: ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff']
+    });
+  };
+
   const handleNextVideo = () => {
     if (!userSession || !videoQueue) return;
     
@@ -215,6 +234,9 @@ const Index = () => {
       
       // Добавляем видео в список просмотренных для скрытия
       setWatchedVideoIds(prev => [...prev, currentVideoData.id]);
+      
+      // Запускаем конфетти при исчезновении видео
+      triggerConfetti();
       
       // Обновляем очередь пользователя
       const updatedQueue = {
