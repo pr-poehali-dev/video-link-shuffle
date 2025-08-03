@@ -514,8 +514,8 @@ const Index = () => {
                           className="w-full h-32 object-cover"
                         />
                         <div className="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center">
-                          <div className="w-12 h-12 bg-primary/90 rounded-full flex items-center justify-center"
-                            <Icon name="Play" size={20} className="text-primary ml-0.5" />
+                          <div className="w-12 h-12 bg-primary/90 rounded-full flex items-center justify-center">
+                            <Icon name="Play" size={20} className="text-primary-foreground ml-0.5" />
                           </div>
                         </div>
                         <div className="absolute bottom-2 right-2 bg-primary/80 text-primary-foreground text-xs px-2 py-1 rounded">
