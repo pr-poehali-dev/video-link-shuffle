@@ -304,11 +304,8 @@ const Index = () => {
     const video = availableVideos[currentVideo];
     if (!video) return;
     
-    // Формируем текст для репоста с автоматической ссылкой на видео
-    const repostText = `🎬 Смотрите интересное видео: ${video.title}\n\n${video.url}\n\n#PodLet #ВидеоПродвижение`;
-    
-    // Открываем Telegram с предзаполненным текстом для репоста
-    const telegramUrl = `https://t.me/share/url?url=${encodeURIComponent(video.url)}&text=${encodeURIComponent(repostText)}`;
+    // Открываем конкретную группу Telegram
+    const telegramUrl = `https://t.me/podlet_ru`;
     window.open(telegramUrl, '_blank');
     setHasReposted(true);
   };
@@ -373,23 +370,14 @@ const Index = () => {
       <header className="p-6">
         <div className="max-w-[585px] mx-auto flex justify-between items-center">
           <div className="flex items-center">
-            <a href="/" className="cursor-pointer hover:opacity-80 transition-opacity">
-              <img 
-                src="https://cdn.poehali.dev/files/184752ef-65b4-48a2-8f29-7f318c1dc91a.png" 
-                alt="PodLet Logo"
-                className="h-16 md:h-20 w-auto"
-              />
-            </a>
+            <img 
+              src="https://cdn.poehali.dev/files/184752ef-65b4-48a2-8f29-7f318c1dc91a.png" 
+              alt="PodLet Logo"
+              className="h-16 md:h-20 w-auto rounded-md"
+            />
           </div>
           
-          <div className="flex items-center gap-4">
-            <a href="/admin" className="text-xs text-foreground hover:text-primary transition-colors">
-              Админ
-            </a>
-            <a href="/premium" className="text-xs text-foreground hover:text-primary transition-colors">
-              Премиум
-            </a>
-            <Select value={language} onValueChange={handleLanguageChange}>
+          <Select value={language} onValueChange={handleLanguageChange}>
             <SelectTrigger className="w-32 border-2 border-primary rounded-xl">
               <SelectValue />
             </SelectTrigger>
@@ -399,7 +387,6 @@ const Index = () => {
               ))}
             </SelectContent>
           </Select>
-          </div>
         </div>
       </header>
 
@@ -448,8 +435,8 @@ const Index = () => {
               disabled={!isButtonActive || showVideos}
               className={`w-full h-12 text-base rounded-xl font-semibold transition-all duration-300 ${
                 isButtonActive && !showVideos
-                  ? 'bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg hover:shadow-xl transform hover:scale-105' 
-                  : 'bg-muted text-muted-foreground cursor-not-allowed'
+                  ? 'bg-primary hover:bg-primary/90 text-primary shadow-lg hover:shadow-xl transform hover:scale-105' 
+                  : 'bg-primary/30 text-primary/50 cursor-not-allowed'
               }`}
             >
               {showCaptcha && !captchaVerified ? t.goButton : t.button}
@@ -488,18 +475,11 @@ const Index = () => {
                   </Button>
                 </div>
                 <p className="text-sm text-primary">{t.watchNote}</p>
-                <a 
-                  href={`https://t.me/${t.telegramLink}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-xs text-primary hover:text-primary/90 underline cursor-pointer transition-colors"
-                >
-                  t.me/{t.telegramLink}
-                </a>
+                <p className="text-xs text-primary">t.me/{t.telegramLink}</p>
                 <p className="text-sm text-primary italic">{t.yourVideoAppears}</p>
               </div>
 
-              <div className="grid grid-cols-1 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {availableVideos.map((video, index) => (
                   <Card 
                     key={video.id} 
@@ -514,11 +494,11 @@ const Index = () => {
                           className="w-full h-32 object-cover"
                         />
                         <div className="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center">
-                          <div className="w-12 h-12 bg-primary/90 rounded-full flex items-center justify-center"
+                          <div className="w-12 h-12 bg-primary bg-opacity-90 rounded-full flex items-center justify-center">
                             <Icon name="Play" size={20} className="text-primary ml-0.5" />
                           </div>
                         </div>
-                        <div className="absolute bottom-2 right-2 bg-primary/80 text-primary-foreground text-xs px-2 py-1 rounded">
+                        <div className="absolute bottom-2 right-2 bg-primary bg-opacity-70 text-primary text-xs px-2 py-1 rounded">
                           {video.views}/{userSession && adminService.getUserActivity(userSession.id)?.isPremium ? '1000' : '100'}
                         </div>
                         <div className="absolute top-2 left-2 bg-primary text-primary text-xs px-2 py-1 rounded">

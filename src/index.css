@@ -32,16 +32,23 @@
     --input: 226 232 240;
     --ring: 59 130 246;
 
-    --radius: 1.25rem;
+    --radius: 0.5rem;
 
     --sidebar-background: 255 255 255;
-    --sidebar-foreground: 30 41 59;
-    --sidebar-primary: 59 130 246;
+
+    --sidebar-foreground: 161 171 253;
+
+    --sidebar-primary: 161 171 253;
+
     --sidebar-primary-foreground: 255 255 255;
-    --sidebar-accent: 241 245 249;
-    --sidebar-accent-foreground: 30 41 59;
-    --sidebar-border: 226 232 240;
-    --sidebar-ring: 59 130 246;
+
+    --sidebar-accent: 255 255 255;
+
+    --sidebar-accent-foreground: 161 171 253;
+
+    --sidebar-border: 161 171 253;
+
+    --sidebar-ring: 161 171 253;
   }
 
   .dark {
@@ -72,14 +79,14 @@
     --border: 30 41 59;
     --input: 30 41 59;
     --ring: 59 130 246;
-    --sidebar-background: 15 23 42;
-    --sidebar-foreground: 226 232 240;
-    --sidebar-primary: 59 130 246;
+    --sidebar-background: 255 255 255;
+    --sidebar-foreground: 161 171 253;
+    --sidebar-primary: 161 171 253;
     --sidebar-primary-foreground: 255 255 255;
-    --sidebar-accent: 30 41 59;
-    --sidebar-accent-foreground: 226 232 240;
-    --sidebar-border: 30 41 59;
-    --sidebar-ring: 59 130 246;
+    --sidebar-accent: 255 255 255;
+    --sidebar-accent-foreground: 161 171 253;
+    --sidebar-border: 161 171 253;
+    --sidebar-ring: 161 171 253;
   }
 }
 
@@ -110,15 +117,15 @@
   }
 
   .btn-inactive {
-    color: rgb(59 130 246 / 0.5);
-    border-color: rgb(59 130 246 / 0.5);
-    background-color: rgb(59 130 246 / 0.1);
+    color: rgb(161 171 253 / 0.5);
+    border-color: rgb(161 171 253 / 0.5);
+    background-color: rgb(161 171 253 / 0.1);
   }
 
   .btn-inactive:hover {
-    color: rgb(59 130 246 / 0.7);
-    border-color: rgb(59 130 246 / 0.7);
-    background-color: rgb(59 130 246 / 0.15);
+    color: rgb(161 171 253 / 0.7);
+    border-color: rgb(161 171 253 / 0.7);
+    background-color: rgb(161 171 253 / 0.15);
   }
 
   @keyframes fadeIn {
