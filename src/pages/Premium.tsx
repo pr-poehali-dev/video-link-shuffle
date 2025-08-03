@@ -87,7 +87,7 @@ const Premium = () => {
             <CardHeader>
               <CardTitle className="flex items-center justify-between">
                 <span>Бесплатный</span>
-                <Badge className="bg-primary text-primary">Free</Badge>
+                <Badge className="bg-white border text-primary">Free</Badge>
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -119,14 +119,14 @@ const Premium = () => {
           {/* Премиум тариф */}
           <Card className="border-2 border-primary relative">
             <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-              <span className="bg-primary text-primary px-4 py-1 rounded-full text-sm">
+              <span className="bg-white border text-primary px-4 py-1 rounded-full text-sm">
                 Рекомендуем
               </span>
             </div>
             <CardHeader>
               <CardTitle className="flex items-center justify-between">
                 <span>Премиум</span>
-                <Badge className="bg-primary text-primary">Premium</Badge>
+                <Badge className="bg-white border text-primary">Premium</Badge>
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -155,7 +155,7 @@ const Premium = () => {
               </ul>
               <Button 
                 onClick={() => setIsPaymentOpen(true)}
-                className="w-full bg-primary hover:bg-primary/90"
+                className="w-full bg-white border border-primary text-primary hover:bg-primary hover:text-white"
               >
                 Купить премиум
               </Button>
@@ -171,7 +171,7 @@ const Premium = () => {
           <CardContent>
             <div className="grid md:grid-cols-3 gap-6">
               <div className="text-center">
-                <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center mx-auto mb-3">
+                <div className="w-12 h-12 bg-white border border-primary rounded-full flex items-center justify-center mx-auto mb-3">
                   <Icon name="TrendingUp" size={24} className="text-primary" />
                 </div>
                 <h3 className="font-semibold mb-2">В 10 раз больше просмотров</h3>
@@ -181,7 +181,7 @@ const Premium = () => {
               </div>
               
               <div className="text-center">
-                <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center mx-auto mb-3">
+                <div className="w-12 h-12 bg-white border border-primary rounded-full flex items-center justify-center mx-auto mb-3">
                   <Icon name="Zap" size={24} className="text-primary" />
                 </div>
                 <h3 className="font-semibold mb-2">Приоритетная обработка</h3>
@@ -191,7 +191,7 @@ const Premium = () => {
               </div>
               
               <div className="text-center">
-                <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center mx-auto mb-3">
+                <div className="w-12 h-12 bg-white border border-primary rounded-full flex items-center justify-center mx-auto mb-3">
                   <Icon name="Headphones" size={24} className="text-primary" />
                 </div>
                 <h3 className="font-semibold mb-2">Поддержка 24/7</h3>
