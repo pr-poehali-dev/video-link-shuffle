@@ -34,7 +34,6 @@ const Index = () => {
   const [allVideosCompleted, setAllVideosCompleted] = useState(false);
 
 
-
   // Translation helper function using imported translations
   const t = {
     title: getTranslation(language as Language, 'title'),
