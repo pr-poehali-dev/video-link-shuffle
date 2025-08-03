@@ -101,7 +101,7 @@ const Index = () => {
       /youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/shorts\//,
       /tiktok\.com\/.*\/video\/|vm\.tiktok\.com\//,
       /instagram\.com\/p\/|instagram\.com\/reel\//,
-      /vk\.com\/video|vk\.com\/clip/,
+      /vk\.com\/video|vk\.com\/clip|vk\.ru\/video|vk\.ru\/clip/,
       /twitch\.tv\/videos\/|clips\.twitch\.tv\//,
       /rutube\.ru\/video\//,
       /zen\.yandex\.ru\/media\//
@@ -285,10 +285,10 @@ const Index = () => {
 
             <Button
               onClick={handleSubmit}
-              disabled={!isButtonActive}
+              disabled={!isButtonActive || showVideos}
               className={`w-full h-12 text-base rounded-xl font-semibold transition-all duration-300 ${
-                isButtonActive 
-                  ? 'bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white shadow-lg animate-pulse-blue' 
+                isButtonActive && !showVideos
+                  ? 'bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white shadow-lg hover:shadow-xl transform hover:scale-105' 
                   : 'bg-gray-300 text-gray-500 cursor-not-allowed'
               }`}
             >
