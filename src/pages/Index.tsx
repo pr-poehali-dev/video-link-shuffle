@@ -179,19 +179,27 @@ const Index = () => {
     const video = availableVideos[currentVideo];
     if (!video) return;
     
-    // Копируем ссылку на видео в буфер обмена с обработкой ошибок
+    // Формируем сообщение для репоста
+    const repostMessage = `🎥 Крутое видео! Смотрите:\n\n${video.url}\n\n#podlet #видео`;
+    
+    // Кодируем сообщение для URL
+    const encodedMessage = encodeURIComponent(repostMessage);
+    
+    // Открываем Telegram с готовым сообщением для репоста в группу
+    const telegramShareUrl = `https://t.me/share/url?url=${encodeURIComponent(video.url)}&text=${encodeURIComponent('🎥 Крутое видео! Смотрите:')}`;
+    
+    // Альтернативный способ - прямая ссылка на группу с текстом
+    const telegramGroupWithText = `https://t.me/podlet_ru?text=${encodedMessage}`;
+    
+    // Копируем ссылку на видео в буфер обмена как резерв
     try {
       await navigator.clipboard.writeText(video.url);
-      console.log('Ссылка скопирована:', video.url);
     } catch (error) {
       console.error('Ошибка копирования ссылки:', error);
-      // Показываем пользователю ссылку для ручного копирования
-      alert(`Ссылка для репоста: ${video.url}`);
     }
     
-    // Открываем нашу Telegram группу
-    const telegramGroupUrl = 'https://t.me/podlet_ru';
-    window.open(telegramGroupUrl, '_blank');
+    // Открываем Telegram для репоста
+    window.open(telegramShareUrl, '_blank');
     setHasReposted(true);
   };
 
