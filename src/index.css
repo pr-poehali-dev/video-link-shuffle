@@ -5,32 +5,32 @@
 @layer base {
   :root {
     --background: 255 255 255;
-    --foreground: 15 23 42;
+    --foreground: 161 171 253;
 
     --card: 255 255 255;
-    --card-foreground: 15 23 42;
+    --card-foreground: 161 171 253;
 
     --popover: 255 255 255;
-    --popover-foreground: 15 23 42;
+    --popover-foreground: 161 171 253;
 
-    --primary: 99 102 241;
+    --primary: 161 171 253;
     --primary-foreground: 255 255 255;
 
-    --secondary: 139 92 246;
+    --secondary: 161 171 253;
     --secondary-foreground: 255 255 255;
 
-    --muted: 248 250 252;
-    --muted-foreground: 100 116 139;
+    --muted: 255 255 255;
+    --muted-foreground: 161 171 253;
 
-    --accent: 248 250 252;
-    --accent-foreground: 15 23 42;
+    --accent: 255 255 255;
+    --accent-foreground: 161 171 253;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 161 171 253;
+    --destructive-foreground: 255 255 255;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 161 171 253;
+    --input: 161 171 253;
+    --ring: 161 171 253;
 
     --radius: 0.5rem;
 
@@ -114,6 +114,18 @@
 
   .animate-scale-in {
     animation: scaleIn 0.3s ease-out;
+  }
+
+  .btn-inactive {
+    color: rgb(161 171 253 / 0.5);
+    border-color: rgb(161 171 253 / 0.5);
+    background-color: rgb(161 171 253 / 0.1);
+  }
+
+  .btn-inactive:hover {
+    color: rgb(161 171 253 / 0.7);
+    border-color: rgb(161 171 253 / 0.7);
+    background-color: rgb(161 171 253 / 0.15);
   }
 
   @keyframes fadeIn {
