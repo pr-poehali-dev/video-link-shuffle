@@ -11,6 +11,8 @@ import BannerSlot from '@/components/BannerSlot';
 import { videoService } from '@/lib/videoService';
 import { adminService } from '@/lib/adminService';
 import { Video, VideoQueue, UserSession } from '@/types/video';
+import SEOHead from '@/components/SEOHead';
+import { getTranslation, Language } from '@/lib/translations';
 
 const Index = () => {
   const [language, setLanguage] = useState('ru');
@@ -361,7 +363,9 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <>
+      <SEOHead language={language as Language} page="home" />
+      <div className="min-h-screen bg-white">
       {/* Header */}
       <header className="p-6">
         <div className="max-w-[585px] mx-auto flex justify-between items-center">
@@ -594,6 +598,7 @@ const Index = () => {
         </DialogContent>
       </Dialog>
     </div>
+    </>
   );
 };
 
