@@ -185,18 +185,16 @@ const Index = () => {
     // Кодируем сообщение для URL
     const encodedMessage = encodeURIComponent(repostMessage);
     
-    // Прямая ссылка на группу podlet_ru с готовым текстом
-    const telegramGroupWithText = `https://t.me/podlet_ru?text=${encodedMessage}`;
+    // Прямая ссылка на группу podlet_ru с готовым текстом для отправки
+    const telegramShareUrl = `https://t.me/share/url?url=${encodeURIComponent(video.url)}&text=${encodeURIComponent('🎥 Крутое видео! Смотрите:')}`;  
     
-    // Копируем ссылку на видео в буфер обмена как резерв
-    try {
-      await navigator.clipboard.writeText(video.url);
-    } catch (error) {
-      console.error('Ошибка копирования ссылки:', error);
-    }
+    // Открываем интерфейс отправки с автоматическим переходом в группу
+    window.open(telegramShareUrl, '_blank');
     
-    // Открываем группу Telegram с готовым сообщением
-    window.open(telegramGroupWithText, '_blank');
+    // Через небольшую задержку открываем группу
+    setTimeout(() => {
+      window.open('https://t.me/podlet_ru', '_blank');
+    }, 1000);
     setHasReposted(true);
   };
 
@@ -534,14 +532,14 @@ const Index = () => {
               >
                 <Icon name="Share" size={16} />
                 <span>
-                  {hasReposted ? '✅ Репост сделан' : 'Репост в Telegram'}
+                  {hasReposted ? 'Репост сделан' : 'Репост в Telegram'}
                 </span>
               </Button>
               
               <Button 
                 disabled={!canSkip || !hasReposted}
                 onClick={handleNextVideo}
-                className="bg-primary text-primary w-full"
+                className="bg-primary text-primary-foreground w-full hover:bg-primary"
               >
                 {!canSkip ? 
                   `Ещё ${15 - Math.round(watchProgress * 15 / 100)} сек` : 
