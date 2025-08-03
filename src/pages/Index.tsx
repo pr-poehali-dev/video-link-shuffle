@@ -386,7 +386,7 @@ const Index = () => {
                   <Icon name="Crown" size={14} className="mr-1" />
                   Premium (1000)
                 </Button>
-                <h3 className="text-lg font-semibold text-blue-600">{t.watchFirst}</h3>
+                <h3 className="text-lg font-semibold text-blue-600 text-center">{t.watchFirst}</h3>
                 <p className="text-sm text-blue-600">{t.watchNote}</p>
                 <a 
                   href={`https://t.me/${t.telegramLink}`}
@@ -396,7 +396,7 @@ const Index = () => {
                 >
                   t.me/{t.telegramLink}
                 </a>
-                <p className="text-sm text-blue-600 italic">{t.yourVideoAppears}</p>
+                <p className="text-sm text-blue-600 italic font-semibold text-left">{t.yourVideoAppears}</p>
               </div>
 
 {/* Блок успешного завершения всех видео */}
