@@ -350,17 +350,19 @@ const Index = () => {
               <Icon name="Link" className="absolute right-4 top-1/2 transform -translate-y-1/2 text-primary" size={20} />
             </div>
 
-            <Button
-              onClick={handleSubmit}
-              disabled={!isButtonActive || showVideos}
-              className={`w-full h-12 text-base rounded-xl font-semibold transition-all duration-300 ${
-                isButtonActive && !showVideos
-                  ? 'bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg hover:shadow-xl transform hover:scale-105' 
-                  : 'bg-background border border-primary text-primary cursor-not-allowed'
-              }`}
-            >
-              {showCaptcha && !captchaVerified ? t.goButton : t.button}
-            </Button>
+            {!showVideos && (
+              <Button
+                onClick={handleSubmit}
+                disabled={!isButtonActive}
+                className={`w-full h-12 text-base rounded-xl font-semibold transition-all duration-300 ${
+                  isButtonActive
+                    ? 'bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg hover:shadow-xl transform hover:scale-105' 
+                    : 'bg-background border border-primary text-primary cursor-not-allowed'
+                }`}
+              >
+                {showCaptcha && !captchaVerified ? t.goButton : t.button}
+              </Button>
+            )}
           </div>
 
           {/* Middle Banner */}
