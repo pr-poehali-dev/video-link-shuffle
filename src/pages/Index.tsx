@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
@@ -7,6 +7,8 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Progress } from '@/components/ui/progress';
 import Icon from '@/components/ui/icon';
+import { videoService } from '@/lib/videoService';
+import { Video, VideoQueue, UserSession } from '@/types/video';
 
 const Index = () => {
   const [language, setLanguage] = useState('ru');
@@ -19,6 +21,11 @@ const Index = () => {
   const [currentVideo, setCurrentVideo] = useState(0);
   const [watchProgress, setWatchProgress] = useState(0);
   const [canSkip, setCanSkip] = useState(false);
+  const [userSession, setUserSession] = useState<UserSession | null>(null);
+  const [videoQueue, setVideoQueue] = useState<VideoQueue | null>(null);
+  const [availableVideos, setAvailableVideos] = useState<Video[]>([]);
+  const [currentPlayerUrl, setCurrentPlayerUrl] = useState('');
+  const [hasReposted, setHasReposted] = useState(false);
 
   const languages = {
     ru: 'Русский',
@@ -64,27 +71,70 @@ const Index = () => {
 
   const t = translations[language as keyof typeof translations] || translations.ru;
 
+  // Инициализация при загрузке
+  useEffect(() => {
+    const session = videoService.getOrCreateSession();
+    setUserSession(session);
+    setLanguage(session.language);
+    
+    // Загружаем доступные видео
+    const videos = videoService.getVideosForViewing();
+    setAvailableVideos(videos);
+  }, []);
+
   const handleUrlChange = (value: string) => {
     setVideoUrl(value);
-    setIsButtonActive(value.length > 0);
+    setIsButtonActive(value.length > 0 && isValidVideoUrl(value));
   };
 
-  const handleSubmit = () => {
+  const isValidVideoUrl = (url: string): boolean => {
+    const patterns = [
+      /youtube\.com\/watch\?v=|youtu\.be\//,
+      /tiktok\.com\/.+\/video\//,
+      /instagram\.com\/p\//,
+      /vk\.com\/video/,
+      /twitch\.tv\//
+    ];
+    return patterns.some(pattern => pattern.test(url));
+  };
+
+  const handleSubmit = async () => {
+    if (!userSession) return;
+    
     if (videoUrl && !showCaptcha) {
       setShowCaptcha(true);
     } else if (showCaptcha && !captchaVerified) {
+      // Добавляем видео пользователя в базу
+      videoService.addVideo(videoUrl);
+      
+      // Создаем очередь для просмотра
+      const queue = videoService.createVideoQueue(userSession.id);
+      setVideoQueue(queue);
+      
       setCaptchaVerified(true);
       setShowVideos(true);
+      
+      // Обновляем сессию
+      const updatedSession = { ...userSession, videoUrl };
+      videoService.updateSession(updatedSession);
+      setUserSession(updatedSession);
     }
   };
 
   const openPlayer = (index: number) => {
+    if (!availableVideos[index]) return;
+    
+    const video = availableVideos[index];
+    const playerUrl = videoService.getVideoPlayerUrl(video.url);
+    
     setCurrentVideo(index);
+    setCurrentPlayerUrl(playerUrl);
     setIsPlayerOpen(true);
     setWatchProgress(0);
     setCanSkip(false);
+    setHasReposted(false);
     
-    // Simulate video progress
+    // Симуляция прогресса просмотра
     const interval = setInterval(() => {
       setWatchProgress(prev => {
         if (prev >= 100) {
@@ -92,16 +142,61 @@ const Index = () => {
           clearInterval(interval);
           return 100;
         }
-        return prev + 6.67; // 15 seconds = 100%
+        return prev + 6.67; // 15 секунд = 100%
       });
     }, 1000);
   };
 
-  const mockVideos = [
-    { id: 1, title: 'Красивый закат', views: '15 сек', thumbnail: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=300&h=200&fit=crop' },
-    { id: 2, title: 'Городские огни', views: '15 сек', thumbnail: 'https://images.unsplash.com/photo-1519501025264-65ba15a82390?w=300&h=200&fit=crop' },
-    { id: 3, title: 'Морские волны', views: '15 сек', thumbnail: 'https://images.unsplash.com/photo-1505142468610-359e7d316be0?w=300&h=200&fit=crop' }
-  ];
+  const handleRepost = () => {
+    const video = availableVideos[currentVideo];
+    if (!video) return;
+    
+    // Открываем Telegram для репоста
+    const telegramUrl = `https://t.me/share/url?url=${encodeURIComponent(video.url)}&text=${encodeURIComponent('Смотри крутое видео!')}`;
+    window.open(telegramUrl, '_blank');
+    setHasReposted(true);
+  };
+
+  const handleNextVideo = () => {
+    if (!userSession || !videoQueue) return;
+    
+    const currentVideoData = availableVideos[currentVideo];
+    if (currentVideoData) {
+      // Увеличиваем счетчик просмотров
+      videoService.incrementView(currentVideoData.id);
+      
+      // Обновляем очередь пользователя
+      const updatedQueue = {
+        ...videoQueue,
+        watchedVideos: [...videoQueue.watchedVideos, currentVideoData.id],
+        completedWatches: canSkip && hasReposted ? 
+          [...videoQueue.completedWatches, currentVideoData.id] : 
+          videoQueue.completedWatches
+      };
+      videoService.updateUserQueue(userSession.id, updatedQueue);
+      setVideoQueue(updatedQueue);
+    }
+    
+    setIsPlayerOpen(false);
+    
+    // Проверяем, посмотрел ли пользователь все 3 видео
+    if (videoQueue && videoQueue.completedWatches.length >= 2) {
+      // Пользователь выполнил условия, его видео появится в каталоге
+      setTimeout(() => {
+        alert('Поздравляем! Вы выполнили все условия. Ваше видео скоро появится в каталоге.');
+      }, 1000);
+    }
+  };
+
+  // Обновляем язык в сессии при изменении
+  const handleLanguageChange = (newLanguage: string) => {
+    setLanguage(newLanguage);
+    if (userSession) {
+      const updatedSession = { ...userSession, language: newLanguage };
+      videoService.updateSession(updatedSession);
+      setUserSession(updatedSession);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
@@ -119,7 +214,7 @@ const Index = () => {
           </div>
         </div>
         
-        <Select value={language} onValueChange={setLanguage}>
+        <Select value={language} onValueChange={handleLanguageChange}>
           <SelectTrigger className="w-32 border-2 border-gray-200 rounded-xl">
             <SelectValue />
           </SelectTrigger>
@@ -132,11 +227,11 @@ const Index = () => {
       </header>
 
       {/* Main Content */}
-      <main className="container mx-auto px-6 pb-12">
-        <div className="max-w-2xl mx-auto space-y-8">
+      <main className="container mx-auto px-4 pb-12">
+        <div className="max-w-[585px] mx-auto space-y-6">
           {/* Description */}
-          <div className="text-center space-y-4 animate-fade-in">
-            <h2 className="text-xl text-gray-700">{t.description}</h2>
+          <div className="text-center space-y-3 animate-fade-in">
+            <h2 className="text-lg text-gray-700">{t.description}</h2>
           </div>
 
           {/* How it works */}
@@ -167,7 +262,7 @@ const Index = () => {
             <Button
               onClick={handleSubmit}
               disabled={!isButtonActive}
-              className={`w-full h-14 text-lg rounded-xl font-semibold transition-all duration-300 ${
+              className={`w-full h-12 text-base rounded-xl font-semibold transition-all duration-300 ${
                 isButtonActive 
                   ? 'bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white shadow-lg animate-pulse-blue' 
                   : 'bg-gray-300 text-gray-500 cursor-not-allowed'
@@ -199,8 +294,8 @@ const Index = () => {
                 <p className="text-sm text-gray-500 italic">{t.yourVideoAppears}</p>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {mockVideos.map((video, index) => (
+              <div className="grid grid-cols-1 gap-4">
+                {availableVideos.map((video, index) => (
                   <Card 
                     key={video.id} 
                     className="cursor-pointer hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-2 border-gray-200 hover:border-blue-300"
@@ -219,11 +314,17 @@ const Index = () => {
                           </div>
                         </div>
                         <div className="absolute bottom-2 right-2 bg-black bg-opacity-70 text-white text-xs px-2 py-1 rounded">
-                          {video.views}
+                          {video.views}/100
+                        </div>
+                        <div className="absolute top-2 left-2 bg-blue-500 text-white text-xs px-2 py-1 rounded">
+                          {video.platform.toUpperCase()}
                         </div>
                       </div>
                       <div className="p-3">
                         <h4 className="font-medium text-gray-800 text-sm">{video.title}</h4>
+                        <p className="text-xs text-gray-500 mt-1">
+                          {Math.max(0, 100 - video.views)} просмотров до удаления
+                        </p>
                       </div>
                     </CardContent>
                   </Card>
@@ -236,16 +337,38 @@ const Index = () => {
 
       {/* Video Player Modal */}
       <Dialog open={isPlayerOpen} onOpenChange={setIsPlayerOpen}>
-        <DialogContent className="max-w-2xl">
+        <DialogContent className="max-w-lg">
           <DialogHeader>
-            <DialogTitle>Видео {currentVideo + 1} из 3</DialogTitle>
+            <DialogTitle className="text-center">
+              Видео {currentVideo + 1} из {availableVideos.length}
+              {availableVideos[currentVideo] && (
+                <span className="block text-sm font-normal text-gray-500 mt-1">
+                  {availableVideos[currentVideo].platform.toUpperCase()}
+                </span>
+              )}
+            </DialogTitle>
           </DialogHeader>
           <div className="space-y-4">
-            <div className="aspect-video bg-gray-900 rounded-lg flex items-center justify-center">
-              <div className="text-white text-center">
-                <Icon name="Play" size={48} className="mx-auto mb-2" />
-                <p>Здесь воспроизводится видео</p>
-              </div>
+            <div className="aspect-video bg-gray-900 rounded-lg overflow-hidden">
+              {currentPlayerUrl ? (
+                <iframe
+                  src={currentPlayerUrl}
+                  className="w-full h-full"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  title="Video Player"
+                />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center text-white text-center">
+                  <div>
+                    <Icon name="Play" size={48} className="mx-auto mb-2" />
+                    <p>Загрузка видео...</p>
+                    <p className="text-sm text-gray-300 mt-2">
+                      Обход геоблокировок активен
+                    </p>
+                  </div>
+                </div>
+              )}
             </div>
             
             <div className="space-y-2">
@@ -254,20 +377,40 @@ const Index = () => {
                 <span>{Math.round(watchProgress)}%</span>
               </div>
               <Progress value={watchProgress} className="h-2" />
+              <p className="text-xs text-gray-500 text-center">
+                {canSkip ? 
+                  'Минимальное время просмотрено! Сделайте репост для продолжения.' : 
+                  `Ещё ${15 - Math.round(watchProgress * 15 / 100)} секунд для разблокировки репоста`
+                }
+              </p>
             </div>
 
-            <div className="flex justify-between items-center">
-              <Button variant="outline" className="flex items-center space-x-2">
+            <div className="flex flex-col gap-2">
+              <Button 
+                variant="outline" 
+                disabled={!canSkip || hasReposted}
+                onClick={handleRepost}
+                className="flex items-center justify-center space-x-2 w-full"
+              >
                 <Icon name="Share" size={16} />
-                <span>Репост в Telegram</span>
+                <span>
+                  {hasReposted ? '✅ Репост сделан' : 'Репост в Telegram'}
+                </span>
               </Button>
               
               <Button 
-                disabled={!canSkip}
-                onClick={() => setIsPlayerOpen(false)}
-                className="bg-gradient-to-r from-blue-500 to-purple-600 text-white"
+                disabled={!canSkip || !hasReposted}
+                onClick={handleNextVideo}
+                className="bg-gradient-to-r from-blue-500 to-purple-600 text-white w-full"
               >
-                {canSkip ? 'Следующее видео' : `Ещё ${15 - Math.round(watchProgress * 15 / 100)} сек`}
+                {!canSkip ? 
+                  `Ещё ${15 - Math.round(watchProgress * 15 / 100)} сек` : 
+                  !hasReposted ? 
+                    'Сначала сделайте репост' : 
+                    currentVideo < availableVideos.length - 1 ? 
+                      'Следующее видео' : 
+                      'Завершить просмотр'
+                }
               </Button>
             </div>
           </div>
