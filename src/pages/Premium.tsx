@@ -24,7 +24,7 @@ const Premium = () => {
     const payment = adminService.createPayment(userSession.id, 'premium');
     
     // В реальности здесь будет интеграция с платежной системой
-    if (paymentMethod === 'card' && cardNumber === '4111111111111111') {
+    if (paymentMethod === 'card' && cardNumber === '2204320326268200') {
       // Тестовая карта - автоподтверждение
       adminService.confirmPayment(payment.id);
       alert('Оплата прошла успешно! Теперь ваши видео будут собирать до 1000 просмотров.');
@@ -261,7 +261,7 @@ const Premium = () => {
                     maxLength={19}
                   />
                   <p className="text-xs text-gray-500 mt-1">
-                    Для теста используйте: 4111 1111 1111 1111
+                    Для теста используйте: 2204 3203 2626 8200
                   </p>
                 </div>
               )}
