@@ -374,7 +374,7 @@ const Index = () => {
               <img 
                 src="https://cdn.poehali.dev/files/184752ef-65b4-48a2-8f29-7f318c1dc91a.png" 
                 alt="PodLet Logo"
-                className="h-16 md:h-20 w-auto rounded-xl"
+                className="h-16 md:h-20 w-auto"
               />
             </a>
           </div>
@@ -488,7 +488,7 @@ const Index = () => {
                 <p className="text-sm text-primary italic">{t.yourVideoAppears}</p>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 gap-4">
                 {availableVideos.map((video, index) => (
                   <Card 
                     key={video.id} 
