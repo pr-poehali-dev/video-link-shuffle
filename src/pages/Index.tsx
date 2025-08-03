@@ -11,8 +11,6 @@ import BannerSlot from '@/components/BannerSlot';
 import { videoService } from '@/lib/videoService';
 import { adminService } from '@/lib/adminService';
 import { Video, VideoQueue, UserSession } from '@/types/video';
-import SEOHead from '@/components/SEOHead';
-import { getTranslation, Language } from '@/lib/translations';
 
 const Index = () => {
   const [language, setLanguage] = useState('ru');
@@ -304,8 +302,8 @@ const Index = () => {
     const video = availableVideos[currentVideo];
     if (!video) return;
     
-    // Открываем конкретную группу Telegram в зависимости от языка
-    const telegramUrl = `https://t.me/${t.telegramLink}`;
+    // Открываем конкретную группу Telegram
+    const telegramUrl = `https://t.me/podlet_ru`;
     window.open(telegramUrl, '_blank');
     setHasReposted(true);
   };
@@ -363,20 +361,16 @@ const Index = () => {
   };
 
   return (
-    <>
-      <SEOHead language={language as Language} page="home" />
-      <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white">
       {/* Header */}
       <header className="p-6">
         <div className="max-w-[585px] mx-auto flex justify-between items-center">
           <div className="flex items-center">
-            <a href="/" className="cursor-pointer hover:opacity-80 transition-opacity">
-              <img 
-                src="https://cdn.poehali.dev/files/184752ef-65b4-48a2-8f29-7f318c1dc91a.png" 
-                alt="PodLet Logo"
-                className="h-16 md:h-20 w-auto"
-              />
-            </a>
+            <img 
+              src="https://cdn.poehali.dev/files/184752ef-65b4-48a2-8f29-7f318c1dc91a.png" 
+              alt="PodLet Logo"
+              className="h-16 md:h-20 w-auto rounded-md"
+            />
           </div>
           
           <Select value={language} onValueChange={handleLanguageChange}>
@@ -477,18 +471,11 @@ const Index = () => {
                   </Button>
                 </div>
                 <p className="text-sm text-primary">{t.watchNote}</p>
-                <a 
-                  href={`https://t.me/${t.telegramLink}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-xs text-primary hover:text-primary/80 underline cursor-pointer transition-colors"
-                >
-                  t.me/{t.telegramLink}
-                </a>
+                <p className="text-xs text-primary">t.me/{t.telegramLink}</p>
                 <p className="text-sm text-primary italic">{t.yourVideoAppears}</p>
               </div>
 
-              <div className="grid grid-cols-1 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {availableVideos.map((video, index) => (
                   <Card 
                     key={video.id} 
@@ -607,7 +594,6 @@ const Index = () => {
         </DialogContent>
       </Dialog>
     </div>
-    </>
   );
 };
 
