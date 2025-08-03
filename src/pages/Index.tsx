@@ -95,12 +95,16 @@ const Index = () => {
   };
 
   const isValidVideoUrl = (url: string): boolean => {
+    if (!url || url.length < 10) return false;
+    
     const patterns = [
-      /youtube\.com\/watch\?v=|youtu\.be\//,
-      /tiktok\.com\/.+\/video\//,
-      /instagram\.com\/p\//,
-      /vk\.com\/video/,
-      /twitch\.tv\//
+      /youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/shorts\//,
+      /tiktok\.com\/.*\/video\/|vm\.tiktok\.com\//,
+      /instagram\.com\/p\/|instagram\.com\/reel\//,
+      /vk\.com\/video|vk\.com\/clip/,
+      /twitch\.tv\/videos\/|clips\.twitch\.tv\//,
+      /rutube\.ru\/video\//,
+      /zen\.yandex\.ru\/media\//
     ];
     return patterns.some(pattern => pattern.test(url));
   };
