@@ -207,7 +207,7 @@ const Stats = () => {
               </div>
             </div>
 
-            <div className="p-4 bg-yellow-50 rounded-lg">
+            <div className="p-4 bg-blue-50 rounded-lg">
               <h4 className="font-medium mb-2">Как это работает:</h4>
               <ul className="text-sm text-gray-600 space-y-1">
                 <li>• Пригласи друга по своей ссылке</li>
