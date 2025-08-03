@@ -1,0 +1,33 @@
+{
+  "name": "PodLet - Продвижение видео",
+  "short_name": "PodLet",
+  "description": "Бесплатное продвижение коротких роликов в социальных сетях",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#6366f1",
+  "orientation": "portrait",
+  "scope": "/",
+  "lang": "ru",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "32x32",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "https://cdn.poehali.dev/files/ab6116fe-8dc0-4f72-a92b-7ae2194b61ee.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable any"
+    }
+  ],
+  "categories": ["social", "video", "entertainment"],
+  "screenshots": [
+    {
+      "src": "https://cdn.poehali.dev/files/ab6116fe-8dc0-4f72-a92b-7ae2194b61ee.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

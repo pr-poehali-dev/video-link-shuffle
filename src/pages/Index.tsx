@@ -46,7 +46,7 @@ const Index = () => {
     ru: {
       logo: 'PodLet',
       subtitle: '100 просмотров на видео',
-      description: 'Продвижение коротких роликов в VK Instagram YouTube TikTok и др.',
+      description: 'Продвижение коротких роликов в VK Instagram YouTube TikTok Twitch и др.',
       howItWorks: 'Бесплатно и просто, как этот сайт!',
       placeholder: 'Вставь ссылку на свой ролик',
       button: 'Поехали!',
@@ -59,7 +59,7 @@ const Index = () => {
     en: {
       logo: 'PodLet',
       subtitle: '100 views per video',
-      description: 'Promote short videos on VK Instagram YouTube TikTok etc.',
+      description: 'Promote short videos on VK Instagram YouTube TikTok Twitch etc.',
       howItWorks: 'Free and simple, like this site!',
       placeholder: 'Paste your video link',
       button: 'Let\'s go!',
@@ -68,6 +68,110 @@ const Index = () => {
       telegramLink: 'podlet_en',
       yourVideoAppears: 'Your video will also appear here after meeting the conditions!',
       goButton: 'Let\'s fly!'
+    },
+    es: {
+      logo: 'PodLet',
+      subtitle: '100 visualizaciones por video',
+      description: 'Promociona videos cortos en VK Instagram YouTube TikTok Twitch etc.',
+      howItWorks: '¡Gratis y simple, como este sitio!',
+      placeholder: 'Pega el enlace de tu video',
+      button: '¡Vamos!',
+      watchFirst: 'Ahora mira tres videos de otros autores',
+      watchNote: 'Mira cada uno de los 3 videos a continuación durante al menos 15 segundos y comparte cada video en nuestro grupo',
+      telegramLink: 'podlet_es',
+      yourVideoAppears: '¡Tu video también aparecerá aquí después de cumplir las condiciones!',
+      goButton: '¡Volemos!'
+    },
+    fr: {
+      logo: 'PodLet',
+      subtitle: '100 vues par vidéo',
+      description: 'Promouvez des vidéos courtes sur VK Instagram YouTube TikTok Twitch etc.',
+      howItWorks: 'Gratuit et simple, comme ce site !',
+      placeholder: 'Collez le lien de votre vidéo',
+      button: 'Allons-y !',
+      watchFirst: 'Maintenant regardez trois vidéos d\'autres auteurs',
+      watchNote: 'Regardez chacune des 3 vidéos ci-dessous pendant au moins 15 secondes et partagez chaque vidéo dans notre groupe',
+      telegramLink: 'podlet_fr',
+      yourVideoAppears: 'Votre vidéo apparaîtra aussi ici après avoir rempli les conditions !',
+      goButton: 'Envolons-nous !'
+    },
+    de: {
+      logo: 'PodLet',
+      subtitle: '100 Aufrufe pro Video',
+      description: 'Bewirb kurze Videos auf VK Instagram YouTube TikTok Twitch usw.',
+      howItWorks: 'Kostenlos und einfach, wie diese Seite!',
+      placeholder: 'Fügen Sie Ihren Video-Link ein',
+      button: 'Los geht\'s!',
+      watchFirst: 'Schauen Sie sich jetzt drei Videos anderer Autoren an',
+      watchNote: 'Schauen Sie sich jedes der 3 Videos unten mindestens 15 Sekunden lang an und teilen Sie jedes Video in unserer Gruppe',
+      telegramLink: 'podlet_de',
+      yourVideoAppears: 'Ihr Video wird auch hier erscheinen, nachdem Sie die Bedingungen erfüllt haben!',
+      goButton: 'Fliegen wir!'
+    },
+    zh: {
+      logo: 'PodLet',
+      subtitle: '每个视频100次观看',
+      description: '在VK Instagram YouTube TikTok Twitch等平台推广短视频',
+      howItWorks: '免费且简单，就像这个网站！',
+      placeholder: '粘贴您的视频链接',
+      button: '开始！',
+      watchFirst: '现在观看其他作者的三个视频',
+      watchNote: '观看下面3个视频中的每一个至少15秒，并在我们的群组中分享每个视频',
+      telegramLink: 'podlet_zh',
+      yourVideoAppears: '满足条件后，您的视频也会出现在这里！',
+      goButton: '飞吧！'
+    },
+    ja: {
+      logo: 'PodLet',
+      subtitle: '動画あたり100回再生',
+      description: 'VK Instagram YouTube TikTok Twitchなどで短い動画を宣伝',
+      howItWorks: 'このサイトのように無料で簡単！',
+      placeholder: '動画リンクを貼り付けてください',
+      button: '行こう！',
+      watchFirst: '他の作者の3つの動画を見てください',
+      watchNote: '下の3つの動画をそれぞれ最低15秒間視聴し、各動画を私たちのグループで共有してください',
+      telegramLink: 'podlet_ja',
+      yourVideoAppears: '条件を満たした後、あなたの動画もここに表示されます！',
+      goButton: '飛ぼう！'
+    },
+    ko: {
+      logo: 'PodLet',
+      subtitle: '비디오당 100회 조회',
+      description: 'VK Instagram YouTube TikTok Twitch 등에서 짧은 비디오 홍보',
+      howItWorks: '이 사이트처럼 무료이고 간단합니다!',
+      placeholder: '비디오 링크를 붙여넣으세요',
+      button: '가자!',
+      watchFirst: '이제 다른 작가들의 세 개의 비디오를 시청하세요',
+      watchNote: '아래 3개 비디오를 각각 최소 15초 동안 시청하고 각 비디오를 우리 그룹에 공유하세요',
+      telegramLink: 'podlet_ko',
+      yourVideoAppears: '조건을 충족한 후 귀하의 비디오도 여기에 나타납니다!',
+      goButton: '날아가자!'
+    },
+    pt: {
+      logo: 'PodLet',
+      subtitle: '100 visualizações por vídeo',
+      description: 'Promova vídeos curtos no VK Instagram YouTube TikTok Twitch etc.',
+      howItWorks: 'Grátis e simples, como este site!',
+      placeholder: 'Cole o link do seu vídeo',
+      button: 'Vamos!',
+      watchFirst: 'Agora assista três vídeos de outros autores',
+      watchNote: 'Assista cada um dos 3 vídeos abaixo por pelo menos 15 segundos e compartilhe cada vídeo em nosso grupo',
+      telegramLink: 'podlet_pt',
+      yourVideoAppears: 'Seu vídeo também aparecerá aqui após cumprir as condições!',
+      goButton: 'Vamos voar!'
+    },
+    it: {
+      logo: 'PodLet',
+      subtitle: '100 visualizzazioni per video',
+      description: 'Promuovi video brevi su VK Instagram YouTube TikTok Twitch ecc.',
+      howItWorks: 'Gratuito e semplice, come questo sito!',
+      placeholder: 'Incolla il link del tuo video',
+      button: 'Andiamo!',
+      watchFirst: 'Ora guarda tre video di altri autori',
+      watchNote: 'Guarda ognuno dei 3 video qui sotto per almeno 15 secondi e condividi ogni video nel nostro gruppo',
+      telegramLink: 'podlet_it',
+      yourVideoAppears: 'Anche il tuo video apparirà qui dopo aver soddisfatto le condizioni!',
+      goButton: 'Voliamo!'
     }
   };
 
@@ -128,6 +232,7 @@ const Index = () => {
       /vkvideo\.ru\/clip-?\d+_\d+/,
       /twitch\.tv\/videos\/\d+/,
       /clips\.twitch\.tv\/[a-zA-Z0-9_-]+/,
+      /twitch\.tv\/[^/]+\/clip\/[a-zA-Z0-9_-]+/,
       /rutube\.ru\/video\/[a-zA-Z0-9_-]+/,
       /zen\.yandex\.ru\/media\/video\//
     ];
@@ -255,25 +360,27 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-white">
       {/* Header */}
-      <header className="flex justify-center items-center p-6 md:max-w-[585px] md:mx-auto">
-        <div className="flex items-center space-x-3">
-          <img 
-            src="https://cdn.poehali.dev/files/184752ef-65b4-48a2-8f29-7f318c1dc91a.png" 
-            alt="PodLet Logo"
-            className="h-16 md:h-20 w-auto rounded-md"
-          />
+      <header className="p-6">
+        <div className="max-w-[585px] mx-auto flex justify-between items-center">
+          <div className="flex items-center">
+            <img 
+              src="https://cdn.poehali.dev/files/184752ef-65b4-48a2-8f29-7f318c1dc91a.png" 
+              alt="PodLet Logo"
+              className="h-16 md:h-20 w-auto rounded-md"
+            />
+          </div>
+          
+          <Select value={language} onValueChange={handleLanguageChange}>
+            <SelectTrigger className="w-32 border-2 border-gray-200 rounded-xl">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {Object.entries(languages).map(([code, name]) => (
+                <SelectItem key={code} value={code}>{name}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
-        
-        <Select value={language} onValueChange={handleLanguageChange}>
-          <SelectTrigger className="w-32 border-2 border-gray-200 rounded-xl">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            {Object.entries(languages).map(([code, name]) => (
-              <SelectItem key={code} value={code}>{name}</SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
       </header>
 
       {/* Top Banner */}
