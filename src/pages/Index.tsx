@@ -278,7 +278,7 @@ const Index = () => {
       <SEOHead language={language as Language} page="home" />
       <div className="min-h-screen bg-white">
       {/* Header */}
-      <header className="p-6">
+      <header className="p-6 px-[19px]">
         <div className="max-w-[585px] mx-auto flex justify-between items-center">
           <div className="flex items-center">
             <a href="/" className="cursor-pointer hover:opacity-80 transition-opacity">
@@ -290,7 +290,7 @@ const Index = () => {
             </a>
           </div>
           
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4 py-0 rounded-none mx-0 my-0 px-0">
             <Select value={language} onValueChange={handleLanguageChange}>
             <SelectTrigger className="w-32 border-2 border-primary rounded-xl">
               <SelectValue />
