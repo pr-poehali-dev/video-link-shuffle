@@ -30,6 +30,8 @@ const Index = () => {
   const [availableVideos, setAvailableVideos] = useState<Video[]>([]);
   const [currentPlayerUrl, setCurrentPlayerUrl] = useState('');
   const [hasReposted, setHasReposted] = useState(false);
+  const [watchedVideoIds, setWatchedVideoIds] = useState<string[]>([]);
+  const [allVideosCompleted, setAllVideosCompleted] = useState(false);
 
 
 
@@ -176,12 +178,12 @@ const Index = () => {
     const video = availableVideos[currentVideo];
     if (!video) return;
     
-    // Формируем текст для репоста с автоматической ссылкой на видео
-    const repostText = `🎬 Смотрите интересное видео: ${video.title}\n\n${video.url}\n\n#PodLet #ВидеоПродвижение`;
+    // Копируем ссылку на видео в буфер обмена
+    navigator.clipboard.writeText(video.url);
     
-    // Открываем Telegram с предзаполненным текстом для репоста
-    const telegramUrl = `https://t.me/share/url?url=${encodeURIComponent(video.url)}&text=${encodeURIComponent(repostText)}`;
-    window.open(telegramUrl, '_blank');
+    // Открываем нашу Telegram группу
+    const telegramGroupUrl = 'https://t.me/podlet_ru';
+    window.open(telegramGroupUrl, '_blank');
     setHasReposted(true);
   };
 
@@ -204,6 +206,9 @@ const Index = () => {
         });
       }
       
+      // Добавляем видео в список просмотренных для скрытия
+      setWatchedVideoIds(prev => [...prev, currentVideoData.id]);
+      
       // Обновляем очередь пользователя
       const updatedQueue = {
         ...videoQueue,
@@ -218,12 +223,12 @@ const Index = () => {
     
     setIsPlayerOpen(false);
     
-    // Проверяем, посмотрел ли пользователь все 3 видео
-    if (videoQueue && videoQueue.completedWatches.length >= 2) {
-      // Пользователь выполнил условия, его видео появится в каталоге
-      setTimeout(() => {
-        alert('Поздравляем! Вы выполнили все условия. Ваше видео скоро появится в каталоге.');
-      }, 1000);
+    // Проверяем, остались ли еще видео для просмотра
+    const remainingVideos = availableVideos.filter(video => !watchedVideoIds.includes(video.id) && video.id !== currentVideoData?.id);
+    
+    if (remainingVideos.length === 0) {
+      // Все видео просмотрены
+      setAllVideosCompleted(true);
     }
   };
 
@@ -249,7 +254,7 @@ const Index = () => {
           <div className="flex items-center">
             <a href="/" className="cursor-pointer hover:opacity-80 transition-opacity">
               <img 
-                src="https://cdn.poehali.dev/files/184752ef-65b4-48a2-8f29-7f318c1dc91a.png" 
+                src="https://cdn.poehali.dev/files/9ad7404a-82bb-43ea-ab53-440125603703.svg" 
                 alt="PodLet Logo"
                 className="h-16 md:h-20 w-auto"
               />
@@ -367,42 +372,74 @@ const Index = () => {
                 <p className="text-sm text-primary italic">{t.yourVideoAppears}</p>
               </div>
 
-              <div className="grid grid-cols-1 gap-4">
-                {availableVideos.map((video, index) => (
-                  <Card 
-                    key={video.id} 
-                    className="cursor-pointer hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-2 border-primary hover:border-primary"
-                    onClick={() => openPlayer(index)}
+{/* Блок успешного завершения всех видео */}
+              {allVideosCompleted ? (
+                <div className="text-center space-y-4 animate-fade-in">
+                  <div className="w-20 h-20 bg-green-500 rounded-full mx-auto mb-4 flex items-center justify-center">
+                    <Icon name="CheckCircle" size={32} className="text-white" />
+                  </div>
+                  <h3 className="text-xl font-bold text-green-600">Поздравляем!</h3>
+                  <p className="text-primary">Вы просмотрели все видео и сделали репосты!</p>
+                  <p className="text-sm text-primary">Ваше видео добавлено в каталог и скоро получит просмотры.</p>
+                  <Button 
+                    onClick={() => {
+                      // Сброс состояния для добавления нового видео
+                      setVideoUrl('');
+                      setShowVideos(false);
+                      setShowCaptcha(false);
+                      setCaptchaVerified(false);
+                      setWatchedVideoIds([]);
+                      setAllVideosCompleted(false);
+                      setIsButtonActive(false);
+                      // Обновляем доступные видео
+                      const videos = videoService.getVideosForViewing();
+                      setAvailableVideos(videos);
+                    }}
+                    className="bg-primary text-primary-foreground px-6 py-2 rounded-xl"
                   >
-                    <CardContent className="p-0">
-                      <div className="relative rounded-t-lg overflow-hidden">
-                        <img 
-                          src={video.thumbnail} 
-                          alt={video.title}
-                          className="w-full h-32 object-cover"
-                        />
-                        <div className="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center">
-                          <div className="w-12 h-12 bg-primary/90 rounded-full flex items-center justify-center">
-                            <Icon name="Play" size={20} className="text-primary-foreground ml-0.5" />
+                    Добавить ещё
+                  </Button>
+                </div>
+              ) : (
+                <div className="flex gap-4 overflow-x-auto pb-4">
+                  {availableVideos
+                    .filter(video => !watchedVideoIds.includes(video.id))
+                    .map((video, index) => (
+                    <Card 
+                      key={video.id} 
+                      className="cursor-pointer hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-2 border-primary hover:border-primary min-w-[280px] flex-shrink-0"
+                      onClick={() => openPlayer(availableVideos.findIndex(v => v.id === video.id))}
+                    >
+                      <CardContent className="p-0">
+                        <div className="relative rounded-t-lg overflow-hidden">
+                          <img 
+                            src={video.thumbnail} 
+                            alt={video.title}
+                            className="w-full h-32 object-cover"
+                          />
+                          <div className="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center">
+                            <div className="w-12 h-12 bg-primary/90 rounded-full flex items-center justify-center">
+                              <Icon name="Play" size={20} className="text-primary-foreground ml-0.5" />
+                            </div>
+                          </div>
+                          <div className="absolute bottom-2 right-2 bg-primary/80 text-primary-foreground text-xs px-2 py-1 rounded">
+                            {video.views}/{userSession && adminService.getUserActivity(userSession.id)?.isPremium ? '1000' : '100'}
+                          </div>
+                          <div className="absolute top-2 left-2 bg-primary text-primary text-xs px-2 py-1 rounded">
+                            {video.platform.toUpperCase()}
                           </div>
                         </div>
-                        <div className="absolute bottom-2 right-2 bg-primary/80 text-primary-foreground text-xs px-2 py-1 rounded">
-                          {video.views}/{userSession && adminService.getUserActivity(userSession.id)?.isPremium ? '1000' : '100'}
+                        <div className="p-3">
+                          <h4 className="font-medium text-primary text-sm">{video.title}</h4>
+                          <p className="text-xs text-primary mt-1">
+                            {Math.max(0, (userSession && adminService.getUserActivity(userSession.id)?.isPremium ? 1000 : 100) - video.views)} просмотров до удаления
+                          </p>
                         </div>
-                        <div className="absolute top-2 left-2 bg-primary text-primary text-xs px-2 py-1 rounded">
-                          {video.platform.toUpperCase()}
-                        </div>
-                      </div>
-                      <div className="p-3">
-                        <h4 className="font-medium text-primary text-sm">{video.title}</h4>
-                        <p className="text-xs text-primary mt-1">
-                          {Math.max(0, (userSession && adminService.getUserActivity(userSession.id)?.isPremium ? 1000 : 100) - video.views)} просмотров до удаления
-                        </p>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              )}
             </div>
           )}
 
