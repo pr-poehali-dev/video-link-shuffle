@@ -85,6 +85,20 @@ export const translations = {
     notFoundDesc: 'Извините, запрашиваемая страница не существует.',
     backToHome: 'Вернуться на главную',
     
+    // Главная страница
+    title: 'PodLet',
+    subtitle: '100 просмотров на видео',
+    description: 'Продвижение коротких роликов в VK Instagram YouTube TikTok Twitch и др.',
+    placeholderTitle: 'Бесплатно и просто, как этот сайт!',
+    placeholderDescription: 'Система взаимного продвижения: ты смотришь видео других пользователей, а они смотрят твои. Каждое видео получает 100 просмотров и исчезает из каталога.',
+    urlPlaceholder: 'Вставь ссылку на твой ролик',
+    button: 'Продвинуть',
+    goButton: 'Погнали!',
+    telegramLink: 'podlet_group_ru',
+    watchFirst: 'Теперь посмотри три ролика других авторов',
+    watchNote: 'Сделай на каждом из 3-х видео ниже минимум 15 сек. просмотра и ещё, обязательно репост каждого видео в наш группу',
+    yourVideoAppears: 'Твоё видео тоже появится тут, после выполнения условий!',
+    
     // SEO мета-теги
     seoTitle: 'PodLet — 100 просмотров на видео бесплатно | Продвижение роликов VK Instagram YouTube TikTok',
     seoDescription: '✅ Бесплатное продвижение коротких роликов в VK, Instagram, YouTube, TikTok. Как набрать просмотры на видео быстро и бесплатно. Накрутка просмотров через взаимный обмен.',
@@ -177,10 +191,63 @@ export const translations = {
     notFoundDesc: 'Sorry, the requested page does not exist.',
     backToHome: 'Back to home',
     
+    // Main page
+    title: 'PodLet',
+    subtitle: '100 views per video',
+    description: 'Promote short videos on VK Instagram YouTube TikTok Twitch etc.',
+    placeholderTitle: 'Free and simple, like this site!',
+    placeholderDescription: 'Mutual promotion system: you watch other users\' videos and they watch yours. Each video gets 100 views and disappears from the catalog.',
+    urlPlaceholder: 'Paste your video link here',
+    button: 'Promote',
+    goButton: 'Let\'s go!',
+    telegramLink: 'podlet_group_en',
+    watchFirst: 'Now watch three videos from other authors',
+    watchNote: 'Watch each of the 3 videos below for at least 15 seconds and repost each video to our group',
+    yourVideoAppears: 'Your video will also appear here after meeting the conditions!',
+    
     // SEO meta tags
     seoTitle: 'PodLet — 100 free views per video | Promote VK Instagram YouTube TikTok videos',
     seoDescription: '✅ Free promotion of short videos on VK, Instagram, YouTube, TikTok. How to get video views quickly and for free. View exchange platform.',
     seoKeywords: 'how to get video views, free video promotion, view boosting, YouTube promotion, TikTok views, Instagram Reels promotion, VK video views'
+  },
+  
+  zh: {
+    // 通用元素
+    loading: '加载中...',
+    error: '错误',
+    success: '成功',
+    save: '保存',
+    cancel: '取消',
+    close: '关闭',
+    yes: '是',
+    no: '否',
+    back: '返回',
+    next: '下一步',
+    
+    // 导航
+    home: '首页',
+    premium: '高级版',
+    stats: '统计',
+    admin: '管理员',
+    
+    // 主页
+    title: 'PodLet',
+    subtitle: '每个视频100次观看',
+    description: '在VK Instagram YouTube TikTok Twitch等平台推广短视频',
+    placeholderTitle: '免费且简单，就像这个网站一样！',
+    placeholderDescription: '互推系统：你看别人的视频，他们看你的。每个视频获得100次观看后从目录中消失。',
+    urlPlaceholder: '在此粘贴您的视频链接',
+    button: '推广',
+    goButton: '开始！',
+    telegramLink: 'podlet_group_zh',
+    watchFirst: '现在观看其他作者的三个视频',
+    watchNote: '观看下面3个视频中的每一个至少15秒，并在我们的群组中分享每个视频',
+    yourVideoAppears: '满足条件后，您的视频也会出现在这里！',
+    
+    // SEO标签
+    seoTitle: 'PodLet — 每个视频免费100次观看 | 推广VK Instagram YouTube TikTok视频',
+    seoDescription: '✅ 在VK、Instagram、YouTube、TikTok上免费推广短视频。如何快速免费获得视频观看量。观看交换平台。',
+    seoKeywords: '如何获得视频观看量, 免费视频推广, 观看量提升, YouTube推广, TikTok观看量, Instagram Reels推广, VK视频观看量'
   },
   
   es: {
@@ -229,6 +296,20 @@ export const translations = {
     whenActivatedDesc: 'Inmediatamente después del pago exitoso. Todos tus nuevos videos obtendrán hasta 1000 visualizaciones.',
     canRefund: '¿Puedo obtener un reembolso?',
     canRefundDesc: 'Sí, dentro de 7 días después de la compra si no has usado las funciones premium.',
+    
+    // Página principal
+    title: 'PodLet',
+    subtitle: '100 visualizaciones por video',
+    description: 'Promociona videos cortos en VK Instagram YouTube TikTok Twitch etc.',
+    placeholderTitle: '¡Gratis y simple, como este sitio!',
+    placeholderDescription: 'Sistema de promoción mutua: tú ves videos de otros usuarios y ellos ven los tuyos. Cada video obtiene 100 visualizaciones y desaparece del catálogo.',
+    urlPlaceholder: 'Pega el enlace de tu video',
+    button: 'Promocionar',
+    goButton: '¡Vamos!',
+    telegramLink: 'podlet_group_es',
+    watchFirst: 'Ahora mira tres videos de otros autores',
+    watchNote: 'Mira cada uno de los 3 videos a continuación durante al menos 15 segundos y comparte cada video en nuestro grupo',
+    yourVideoAppears: '¡Tu video también aparecerá aquí después de cumplir las condiciones!',
     
     // SEO meta tags
     seoTitle: 'PodLet — 100 visualizaciones gratis por video | Promociona videos de VK Instagram YouTube TikTok',

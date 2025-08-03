@@ -12,7 +12,7 @@ import { videoService } from '@/lib/videoService';
 import { adminService } from '@/lib/adminService';
 import { Video, VideoQueue, UserSession } from '@/types/video';
 import SEOHead from '@/components/SEOHead';
-import { getTranslation, Language } from '@/lib/translations';
+import { getTranslation, Language, languages } from '@/lib/translations';
 
 const Index = () => {
   const [language, setLanguage] = useState('ru');
@@ -31,153 +31,25 @@ const Index = () => {
   const [currentPlayerUrl, setCurrentPlayerUrl] = useState('');
   const [hasReposted, setHasReposted] = useState(false);
 
-  const languages = {
-    ru: 'Русский',
-    en: 'English',
-    es: 'Español',
-    fr: 'Français',
-    de: 'Deutsch',
-    zh: '中文',
-    ja: '日本語',
-    ko: '한국어',
-    pt: 'Português',
-    it: 'Italiano'
+
+
+  // Translation helper function using imported translations
+  const t = {
+    title: getTranslation(language as Language, 'title'),
+    subtitle: getTranslation(language as Language, 'subtitle'),
+    description: getTranslation(language as Language, 'description'),
+    placeholderTitle: getTranslation(language as Language, 'placeholderTitle'),
+    placeholderDescription: getTranslation(language as Language, 'placeholderDescription'),
+    urlPlaceholder: getTranslation(language as Language, 'urlPlaceholder'),
+    button: getTranslation(language as Language, 'button'),
+    goButton: getTranslation(language as Language, 'goButton'),
+    telegramLink: getTranslation(language as Language, 'telegramLink'),
+    watchFirst: getTranslation(language as Language, 'watchFirst'),
+    watchNote: getTranslation(language as Language, 'watchNote'),
+    yourVideoAppears: getTranslation(language as Language, 'yourVideoAppears')
   };
 
-  const translations = {
-    ru: {
-      logo: 'PodLet',
-      subtitle: '100 просмотров на видео',
-      description: 'Продвижение коротких роликов в VK Instagram YouTube TikTok Twitch и др.',
-      howItWorks: 'Бесплатно и просто, как этот сайт!',
-      placeholder: 'Вставь ссылку на свой ролик',
-      button: 'Поехали!',
-      watchFirst: 'Теперь посмотри три ролика других авторов',
-      watchNote: 'Сделай на каждом из 3-х видео ниже минимум 15 сек. просмотра и ещё, обязательно репост каждого видео в наш группу',
-      telegramLink: 'podlet_ru',
-      yourVideoAppears: 'Твоё видео тоже появится тут, после выполнения условий!',
-      goButton: 'Полетели!'
-    },
-    en: {
-      logo: 'PodLet',
-      subtitle: '100 views per video',
-      description: 'Promote short videos on VK Instagram YouTube TikTok Twitch etc.',
-      howItWorks: 'Free and simple, like this site!',
-      placeholder: 'Paste your video link',
-      button: 'Let\'s go!',
-      watchFirst: 'Now watch three videos from other authors',
-      watchNote: 'Watch each of the 3 videos below for at least 15 seconds and repost each video to our group',
-      telegramLink: 'podlet_en',
-      yourVideoAppears: 'Your video will also appear here after meeting the conditions!',
-      goButton: 'Let\'s fly!'
-    },
-    es: {
-      logo: 'PodLet',
-      subtitle: '100 visualizaciones por video',
-      description: 'Promociona videos cortos en VK Instagram YouTube TikTok Twitch etc.',
-      howItWorks: '¡Gratis y simple, como este sitio!',
-      placeholder: 'Pega el enlace de tu video',
-      button: '¡Vamos!',
-      watchFirst: 'Ahora mira tres videos de otros autores',
-      watchNote: 'Mira cada uno de los 3 videos a continuación durante al menos 15 segundos y comparte cada video en nuestro grupo',
-      telegramLink: 'podlet_es',
-      yourVideoAppears: '¡Tu video también aparecerá aquí después de cumplir las condiciones!',
-      goButton: '¡Volemos!'
-    },
-    fr: {
-      logo: 'PodLet',
-      subtitle: '100 vues par vidéo',
-      description: 'Promouvez des vidéos courtes sur VK Instagram YouTube TikTok Twitch etc.',
-      howItWorks: 'Gratuit et simple, comme ce site !',
-      placeholder: 'Collez le lien de votre vidéo',
-      button: 'Allons-y !',
-      watchFirst: 'Maintenant regardez trois vidéos d\'autres auteurs',
-      watchNote: 'Regardez chacune des 3 vidéos ci-dessous pendant au moins 15 secondes et partagez chaque vidéo dans notre groupe',
-      telegramLink: 'podlet_fr',
-      yourVideoAppears: 'Votre vidéo apparaîtra aussi ici après avoir rempli les conditions !',
-      goButton: 'Envolons-nous !'
-    },
-    de: {
-      logo: 'PodLet',
-      subtitle: '100 Aufrufe pro Video',
-      description: 'Bewirb kurze Videos auf VK Instagram YouTube TikTok Twitch usw.',
-      howItWorks: 'Kostenlos und einfach, wie diese Seite!',
-      placeholder: 'Fügen Sie Ihren Video-Link ein',
-      button: 'Los geht\'s!',
-      watchFirst: 'Schauen Sie sich jetzt drei Videos anderer Autoren an',
-      watchNote: 'Schauen Sie sich jedes der 3 Videos unten mindestens 15 Sekunden lang an und teilen Sie jedes Video in unserer Gruppe',
-      telegramLink: 'podlet_de',
-      yourVideoAppears: 'Ihr Video wird auch hier erscheinen, nachdem Sie die Bedingungen erfüllt haben!',
-      goButton: 'Fliegen wir!'
-    },
-    zh: {
-      logo: 'PodLet',
-      subtitle: '每个视频100次观看',
-      description: '在VK Instagram YouTube TikTok Twitch等平台推广短视频',
-      howItWorks: '免费且简单，就像这个网站！',
-      placeholder: '粘贴您的视频链接',
-      button: '开始！',
-      watchFirst: '现在观看其他作者的三个视频',
-      watchNote: '观看下面3个视频中的每一个至少15秒，并在我们的群组中分享每个视频',
-      telegramLink: 'podlet_zh',
-      yourVideoAppears: '满足条件后，您的视频也会出现在这里！',
-      goButton: '飞吧！'
-    },
-    ja: {
-      logo: 'PodLet',
-      subtitle: '動画あたり100回再生',
-      description: 'VK Instagram YouTube TikTok Twitchなどで短い動画を宣伝',
-      howItWorks: 'このサイトのように無料で簡単！',
-      placeholder: '動画リンクを貼り付けてください',
-      button: '行こう！',
-      watchFirst: '他の作者の3つの動画を見てください',
-      watchNote: '下の3つの動画をそれぞれ最低15秒間視聴し、各動画を私たちのグループで共有してください',
-      telegramLink: 'podlet_ja',
-      yourVideoAppears: '条件を満たした後、あなたの動画もここに表示されます！',
-      goButton: '飛ぼう！'
-    },
-    ko: {
-      logo: 'PodLet',
-      subtitle: '비디오당 100회 조회',
-      description: 'VK Instagram YouTube TikTok Twitch 등에서 짧은 비디오 홍보',
-      howItWorks: '이 사이트처럼 무료이고 간단합니다!',
-      placeholder: '비디오 링크를 붙여넣으세요',
-      button: '가자!',
-      watchFirst: '이제 다른 작가들의 세 개의 비디오를 시청하세요',
-      watchNote: '아래 3개 비디오를 각각 최소 15초 동안 시청하고 각 비디오를 우리 그룹에 공유하세요',
-      telegramLink: 'podlet_ko',
-      yourVideoAppears: '조건을 충족한 후 귀하의 비디오도 여기에 나타납니다!',
-      goButton: '날아가자!'
-    },
-    pt: {
-      logo: 'PodLet',
-      subtitle: '100 visualizações por vídeo',
-      description: 'Promova vídeos curtos no VK Instagram YouTube TikTok Twitch etc.',
-      howItWorks: 'Grátis e simples, como este site!',
-      placeholder: 'Cole o link do seu vídeo',
-      button: 'Vamos!',
-      watchFirst: 'Agora assista três vídeos de outros autores',
-      watchNote: 'Assista cada um dos 3 vídeos abaixo por pelo menos 15 segundos e compartilhe cada vídeo em nosso grupo',
-      telegramLink: 'podlet_pt',
-      yourVideoAppears: 'Seu vídeo também aparecerá aqui após cumprir as condições!',
-      goButton: 'Vamos voar!'
-    },
-    it: {
-      logo: 'PodLet',
-      subtitle: '100 visualizzazioni per video',
-      description: 'Promuovi video brevi su VK Instagram YouTube TikTok Twitch ecc.',
-      howItWorks: 'Gratuito e semplice, come questo sito!',
-      placeholder: 'Incolla il link del tuo video',
-      button: 'Andiamo!',
-      watchFirst: 'Ora guarda tre video di altri autori',
-      watchNote: 'Guarda ognuno dei 3 video qui sotto per almeno 15 secondi e condividi ogni video nel nostro gruppo',
-      telegramLink: 'podlet_it',
-      yourVideoAppears: 'Anche il tuo video apparirà qui dopo aver soddisfatto le condizioni!',
-      goButton: 'Voliamo!'
-    }
-  };
 
-  const t = translations[language as keyof typeof translations] || translations.ru;
 
   // Инициализация при загрузке
   useEffect(() => {
@@ -363,6 +235,8 @@ const Index = () => {
       videoService.updateSession(updatedSession);
       setUserSession(updatedSession);
     }
+    // Принудительно обновляем страницу для применения новых переводов
+    window.location.reload();
   };
 
   return (
@@ -412,10 +286,10 @@ const Index = () => {
           <Accordion type="single" collapsible className="w-full">
             <AccordionItem value="how-it-works" className="border border-primary rounded-xl px-4">
               <AccordionTrigger className="text-left text-primary hover:text-primary">
-                {t.howItWorks}
+                {t.placeholderTitle}
               </AccordionTrigger>
               <AccordionContent className="text-primary pb-4">
-                Система взаимного продвижения: ты смотришь видео других пользователей, а они смотрят твои. Каждое видео получает 100 просмотров и исчезает из каталога.
+                {t.placeholderDescription}
               </AccordionContent>
             </AccordionItem>
           </Accordion>
@@ -425,7 +299,7 @@ const Index = () => {
             <div className="relative">
               <Input
                 type="url"
-                placeholder={t.placeholder}
+                placeholder={t.urlPlaceholder}
                 value={videoUrl}
                 onChange={(e) => handleUrlChange(e.target.value)}
                 className={`h-14 text-lg rounded-xl border-2 transition-colors ${
