@@ -20,14 +20,34 @@ const Premium = () => {
     // Симуляция обработки платежа
     await new Promise(resolve => setTimeout(resolve, 2000));
     
-    const userSession = JSON.parse(localStorage.getItem('podlet_session') || '{}');
+    // Получаем или создаем сессию пользователя
+    let userSession = JSON.parse(localStorage.getItem('podlet_session') || '{}');
+    if (!userSession.id) {
+      userSession = {
+        id: Date.now().toString(),
+        language: 'ru',
+        createdAt: new Date(),
+        isPremium: false
+      };
+      localStorage.setItem('podlet_session', JSON.stringify(userSession));
+    }
+    
     const payment = adminService.createPayment(userSession.id, 'premium');
     
     // В реальности здесь будет интеграция с платежной системой
     if (paymentMethod === 'card' && cardNumber === '2204320326268200') {
       // Тестовая карта - автоподтверждение
       adminService.confirmPayment(payment.id);
+      
+      // Обновляем сессию пользователя
+      userSession.isPremium = true;
+      userSession.plan = 'premium';
+      localStorage.setItem('podlet_session', JSON.stringify(userSession));
+      
       alert('Оплата прошла успешно! Теперь ваши видео будут собирать до 1000 просмотров.');
+      
+      // Перезагружаем страницу чтобы обновить интерфейс
+      setTimeout(() => window.location.reload(), 1000);
     } else if (paymentMethod === 'sbp') {
       alert('Переведите 299 ₽ по номеру телефона +7 (999) 123-45-67 с комментарием: ' + payment.id);
     } else {

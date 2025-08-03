@@ -304,8 +304,8 @@ const Index = () => {
     const video = availableVideos[currentVideo];
     if (!video) return;
     
-    // Открываем конкретную группу Telegram
-    const telegramUrl = `https://t.me/podlet_ru`;
+    // Открываем конкретную группу Telegram в зависимости от языка
+    const telegramUrl = `https://t.me/${t.telegramLink}`;
     window.open(telegramUrl, '_blank');
     setHasReposted(true);
   };
@@ -370,11 +370,13 @@ const Index = () => {
       <header className="p-6">
         <div className="max-w-[585px] mx-auto flex justify-between items-center">
           <div className="flex items-center">
-            <img 
-              src="https://cdn.poehali.dev/files/184752ef-65b4-48a2-8f29-7f318c1dc91a.png" 
-              alt="PodLet Logo"
-              className="h-16 md:h-20 w-auto rounded-md"
-            />
+            <a href="/" className="cursor-pointer hover:opacity-80 transition-opacity">
+              <img 
+                src="https://cdn.poehali.dev/files/184752ef-65b4-48a2-8f29-7f318c1dc91a.png" 
+                alt="PodLet Logo"
+                className="h-16 md:h-20 w-auto rounded-xl"
+              />
+            </a>
           </div>
           
           <Select value={language} onValueChange={handleLanguageChange}>
@@ -475,7 +477,14 @@ const Index = () => {
                   </Button>
                 </div>
                 <p className="text-sm text-primary">{t.watchNote}</p>
-                <p className="text-xs text-primary">t.me/{t.telegramLink}</p>
+                <a 
+                  href={`https://t.me/${t.telegramLink}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs text-primary hover:text-primary/80 underline cursor-pointer transition-colors"
+                >
+                  t.me/{t.telegramLink}
+                </a>
                 <p className="text-sm text-primary italic">{t.yourVideoAppears}</p>
               </div>
 
