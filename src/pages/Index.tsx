@@ -7,6 +7,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Progress } from '@/components/ui/progress';
 import Icon from '@/components/ui/icon';
+import BannerSlot from '@/components/BannerSlot';
 import { videoService } from '@/lib/videoService';
 import { adminService } from '@/lib/adminService';
 import { Video, VideoQueue, UserSession } from '@/types/video';
@@ -97,16 +98,41 @@ const Index = () => {
   const isValidVideoUrl = (url: string): boolean => {
     if (!url || url.length < 10) return false;
     
-    const patterns = [
-      /youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/shorts\//,
-      /tiktok\.com\/.*\/video\/|vm\.tiktok\.com\//,
-      /instagram\.com\/p\/|instagram\.com\/reel\//,
-      /vk\.com\/video|vk\.com\/clip|vk\.ru\/video|vk\.ru\/clip|vkvideo\.ru\/clip/,
-      /twitch\.tv\/videos\/|clips\.twitch\.tv\//,
-      /rutube\.ru\/video\//,
-      /zen\.yandex\.ru\/media\//
+    // Исключаем фото и статьи
+    const excludePatterns = [
+      /instagram\.com\/p\/.*\.(jpg|jpeg|png|gif)/, // Instagram фото
+      /vk\.com\/photo/, // VK фото
+      /vk\.ru\/photo/, // VK фото
+      /youtube\.com\/channel\//,  // YouTube каналы
+      /youtube\.com\/user\//,     // YouTube пользователи
+      /tiktok\.com\/@[^/]+$/,     // TikTok профили
+      /zen\.yandex\.ru\/(?!media\/video)/, // Яндекс.Дзен статьи
     ];
-    return patterns.some(pattern => pattern.test(url));
+    
+    if (excludePatterns.some(pattern => pattern.test(url))) {
+      return false;
+    }
+    
+    // Разрешаем только видео-контент
+    const videoPatterns = [
+      /youtube\.com\/watch\?v=[a-zA-Z0-9_-]+/,
+      /youtu\.be\/[a-zA-Z0-9_-]+/,
+      /youtube\.com\/shorts\/[a-zA-Z0-9_-]+/,
+      /tiktok\.com\/@[^/]+\/video\/\d+/,
+      /vm\.tiktok\.com\/[a-zA-Z0-9]+/,
+      /instagram\.com\/reel\/[a-zA-Z0-9_-]+/,
+      /vk\.com\/video-?\d+_\d+/,
+      /vk\.com\/clip-?\d+_\d+/,
+      /vk\.ru\/video-?\d+_\d+/,
+      /vk\.ru\/clip-?\d+_\d+/,
+      /vkvideo\.ru\/clip-?\d+_\d+/,
+      /twitch\.tv\/videos\/\d+/,
+      /clips\.twitch\.tv\/[a-zA-Z0-9_-]+/,
+      /rutube\.ru\/video\/[a-zA-Z0-9_-]+/,
+      /zen\.yandex\.ru\/media\/video\//
+    ];
+    
+    return videoPatterns.some(pattern => pattern.test(url));
   };
 
   const handleSubmit = async () => {
@@ -250,6 +276,9 @@ const Index = () => {
         </Select>
       </header>
 
+      {/* Top Banner */}
+      <BannerSlot position="top" className="container mx-auto px-4 py-2" />
+
       {/* Main Content */}
       <main className="container mx-auto px-4 pb-12">
         <div className="max-w-[585px] mx-auto space-y-6">
@@ -278,7 +307,11 @@ const Index = () => {
                 placeholder={t.placeholder}
                 value={videoUrl}
                 onChange={(e) => handleUrlChange(e.target.value)}
-                className="h-14 text-lg rounded-xl border-2 border-gray-200 focus:border-blue-500"
+                className={`h-14 text-lg rounded-xl border-2 transition-colors ${
+                  videoUrl && !isValidVideoUrl(videoUrl) 
+                    ? 'border-red-400 focus:border-red-500' 
+                    : 'border-gray-200 focus:border-blue-500'
+                }`}
               />
               <Icon name="Link" className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
             </div>
@@ -295,6 +328,9 @@ const Index = () => {
               {showCaptcha && !captchaVerified ? t.goButton : t.button}
             </Button>
           </div>
+
+          {/* Middle Banner */}
+          <BannerSlot position="middle" className="flex justify-center" />
 
           {/* Captcha */}
           {showCaptcha && !captchaVerified && (
@@ -367,6 +403,9 @@ const Index = () => {
               </div>
             </div>
           )}
+
+          {/* Bottom Banner */}
+          <BannerSlot position="bottom" className="flex justify-center mt-8" />
         </div>
       </main>
 

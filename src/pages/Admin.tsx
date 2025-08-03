@@ -8,7 +8,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import Icon from '@/components/ui/icon';
 import { adminService } from '@/lib/adminService';
+import { bannerService } from '@/lib/bannerService';
 import { AdminStats, UserActivity, VideoStats, PaymentRecord } from '@/types/admin';
+import { Banner, BannerPosition } from '@/types/banner';
 
 const Admin = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -17,7 +19,16 @@ const Admin = () => {
   const [users, setUsers] = useState<UserActivity[]>([]);
   const [videos, setVideos] = useState<VideoStats[]>([]);
   const [payments, setPayments] = useState<PaymentRecord[]>([]);
+  const [banners, setBanners] = useState<Banner[]>([]);
+  const [positions, setPositions] = useState<BannerPosition[]>([]);
   const [loading, setLoading] = useState(false);
+  const [newBanner, setNewBanner] = useState({
+    title: '',
+    imageUrl: '',
+    linkUrl: '',
+    position: 'top' as Banner['position'],
+    isActive: true
+  });
 
   const handleLogin = () => {
     if (adminService.checkAdminAccess(password)) {
@@ -38,6 +49,8 @@ const Admin = () => {
     setPayments(adminService.getAllPayments().sort((a, b) => 
       new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
     ));
+    setBanners(bannerService.getAllBanners());
+    setPositions(bannerService.getPositions());
     setLoading(false);
   };
 
@@ -71,6 +84,41 @@ const Admin = () => {
     a.href = url;
     a.download = `podlet-export-${new Date().toISOString().split('T')[0]}.json`;
     a.click();
+  };
+
+  const handleAddBanner = () => {
+    if (!newBanner.title || !newBanner.imageUrl) return;
+    bannerService.addBanner(newBanner);
+    setNewBanner({
+      title: '',
+      imageUrl: '',
+      linkUrl: '',
+      position: 'top',
+      isActive: true
+    });
+    loadData();
+  };
+
+  const handleToggleBanner = (id: string) => {
+    bannerService.toggleBanner(id);
+    loadData();
+  };
+
+  const handleDeleteBanner = (id: string) => {
+    if (confirm('Удалить баннер?')) {
+      bannerService.deleteBanner(id);
+      loadData();
+    }
+  };
+
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      setNewBanner(prev => ({ ...prev, imageUrl: e.target?.result as string }));
+    };
+    reader.readAsDataURL(file);
   };
 
   if (!isAuthenticated) {
@@ -175,6 +223,7 @@ const Admin = () => {
             <TabsTrigger value="users">Пользователи</TabsTrigger>
             <TabsTrigger value="videos">Видео</TabsTrigger>
             <TabsTrigger value="payments">Платежи</TabsTrigger>
+            <TabsTrigger value="banners">Баннеры</TabsTrigger>
           </TabsList>
 
           <TabsContent value="users">
@@ -362,6 +411,158 @@ const Admin = () => {
                 </Table>
               </CardContent>
             </Card>
+          </TabsContent>
+
+          <TabsContent value="banners">
+            <div className="space-y-6">
+              {/* Добавить баннер */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Добавить новый баннер</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="text-sm font-medium">Название</label>
+                      <Input
+                        value={newBanner.title}
+                        onChange={(e) => setNewBanner(prev => ({ ...prev, title: e.target.value }))}
+                        placeholder="Название баннера"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-sm font-medium">Позиция</label>
+                      <select 
+                        value={newBanner.position} 
+                        onChange={(e) => setNewBanner(prev => ({ ...prev, position: e.target.value as Banner['position'] }))}
+                        className="w-full p-2 border rounded"
+                      >
+                        {positions.map(pos => (
+                          <option key={pos.id} value={pos.id}>
+                            {pos.name} ({pos.recommended})
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <label className="text-sm font-medium">Изображение</label>
+                    <Input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImageUpload}
+                      className="mb-2"
+                    />
+                    <Input
+                      value={newBanner.imageUrl}
+                      onChange={(e) => setNewBanner(prev => ({ ...prev, imageUrl: e.target.value }))}
+                      placeholder="Или URL изображения"
+                    />
+                    {newBanner.imageUrl && (
+                      <img src={newBanner.imageUrl} alt="Preview" className="w-32 h-20 object-cover rounded mt-2" />
+                    )}
+                  </div>
+
+                  <div>
+                    <label className="text-sm font-medium">Ссылка (необязательно)</label>
+                    <Input
+                      value={newBanner.linkUrl}
+                      onChange={(e) => setNewBanner(prev => ({ ...prev, linkUrl: e.target.value }))}
+                      placeholder="https://example.com"
+                    />
+                  </div>
+
+                  <Button onClick={handleAddBanner} disabled={!newBanner.title || !newBanner.imageUrl}>
+                    <Icon name="Plus" size={16} className="mr-2" />
+                    Добавить баннер
+                  </Button>
+                </CardContent>
+              </Card>
+
+              {/* Список баннеров */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Управление баннерами ({banners.length})</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  {banners.length === 0 ? (
+                    <div className="text-center text-gray-500 py-8">
+                      Баннеров пока нет. Добавьте первый!
+                    </div>
+                  ) : (
+                    <div className="space-y-4">
+                      {banners.map(banner => (
+                        <div key={banner.id} className="flex items-center space-x-4 p-4 border rounded-lg">
+                          <img 
+                            src={banner.imageUrl} 
+                            alt={banner.title}
+                            className="w-24 h-16 object-cover rounded"
+                          />
+                          <div className="flex-1">
+                            <h3 className="font-medium">{banner.title}</h3>
+                            <div className="text-sm text-gray-500">
+                              {positions.find(p => p.id === banner.position)?.name}
+                            </div>
+                            {banner.linkUrl && (
+                              <div className="text-xs text-blue-600 truncate max-w-xs">{banner.linkUrl}</div>
+                            )}
+                            <div className="text-xs text-gray-400 mt-1">
+                              Создан: {new Date(banner.createdAt).toLocaleDateString('ru')}
+                            </div>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Badge variant={banner.isActive ? 'default' : 'secondary'}>
+                              {banner.isActive ? 'Активен' : 'Отключен'}
+                            </Badge>
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => handleToggleBanner(banner.id)}
+                            >
+                              <Icon name={banner.isActive ? 'Eye' : 'EyeOff'} size={14} />
+                            </Button>
+                            <Button
+                              size="sm"
+                              variant="destructive"
+                              onClick={() => handleDeleteBanner(banner.id)}
+                            >
+                              <Icon name="Trash2" size={14} />
+                            </Button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+
+              {/* Позиции баннеров */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Позиции для размещения</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {positions.map(position => (
+                      <div key={position.id} className="p-4 border rounded-lg">
+                        <h3 className="font-medium">{position.name}</h3>
+                        <p className="text-sm text-gray-600 mt-1">{position.description}</p>
+                        <div className="text-xs text-gray-500 mt-2">
+                          Рекомендуемый размер: {position.recommended}
+                        </div>
+                        <div className="text-xs text-gray-500">
+                          Максимум: {position.maxWidth}x{position.maxHeight}px
+                        </div>
+                        <div className="text-xs text-blue-600 mt-1">
+                          Активных баннеров: {banners.filter(b => b.position === position.id && b.isActive).length}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
           </TabsContent>
         </Tabs>
       </div>
