@@ -185,10 +185,7 @@ const Index = () => {
     // Кодируем сообщение для URL
     const encodedMessage = encodeURIComponent(repostMessage);
     
-    // Открываем Telegram с готовым сообщением для репоста в группу
-    const telegramShareUrl = `https://t.me/share/url?url=${encodeURIComponent(video.url)}&text=${encodeURIComponent('🎥 Крутое видео! Смотрите:')}`;
-    
-    // Альтернативный способ - прямая ссылка на группу с текстом
+    // Прямая ссылка на группу podlet_ru с готовым текстом
     const telegramGroupWithText = `https://t.me/podlet_ru?text=${encodedMessage}`;
     
     // Копируем ссылку на видео в буфер обмена как резерв
@@ -198,8 +195,8 @@ const Index = () => {
       console.error('Ошибка копирования ссылки:', error);
     }
     
-    // Открываем Telegram для репоста
-    window.open(telegramShareUrl, '_blank');
+    // Открываем группу Telegram с готовым сообщением
+    window.open(telegramGroupWithText, '_blank');
     setHasReposted(true);
   };
 
