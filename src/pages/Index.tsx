@@ -230,7 +230,7 @@ const Index = () => {
           <img 
             src="https://cdn.poehali.dev/files/184752ef-65b4-48a2-8f29-7f318c1dc91a.png" 
             alt="PodLet Logo"
-            className="h-12 w-auto"
+            className="h-12 w-auto rounded-md"
           />
         </div>
         
