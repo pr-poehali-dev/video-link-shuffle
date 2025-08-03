@@ -109,6 +109,7 @@ const Index = () => {
       /clips\.twitch\.tv\/[a-zA-Z0-9_-]+/,
       /twitch\.tv\/[^/]+\/clip\/[a-zA-Z0-9_-]+/,
       /rutube\.ru\/video\/[a-zA-Z0-9_-]+/,
+      /rutube\.ru\/shorts\/[a-zA-Z0-9_-]+/,
       /zen\.yandex\.ru\/media\/video\//
     ];
     
@@ -173,12 +174,19 @@ const Index = () => {
     }, 1000);
   };
 
-  const handleRepost = () => {
+  const handleRepost = async () => {
     const video = availableVideos[currentVideo];
     if (!video) return;
     
-    // Копируем ссылку на видео в буфер обмена
-    navigator.clipboard.writeText(video.url);
+    // Копируем ссылку на видео в буфер обмена с обработкой ошибок
+    try {
+      await navigator.clipboard.writeText(video.url);
+      console.log('Ссылка скопирована:', video.url);
+    } catch (error) {
+      console.error('Ошибка копирования ссылки:', error);
+      // Показываем пользователю ссылку для ручного копирования
+      alert(`Ссылка для репоста: ${video.url}`);
+    }
     
     // Открываем нашу Telegram группу
     const telegramGroupUrl = 'https://t.me/podlet_ru';
@@ -346,29 +354,29 @@ const Index = () => {
           {/* Video Catalog */}
           {showVideos && (
             <div className="space-y-6 animate-fade-in">
-              <div className="text-center space-y-2">
-                <div className="flex justify-between items-center mb-4">
-                  <h3 className="text-lg font-semibold text-primary">{t.watchFirst}</h3>
+              <div className="text-left space-y-3">
+                <h3 className="text-lg font-semibold text-blue-600">{t.watchFirst}</h3>
+                <div className="flex justify-start">
                   <Button 
                     variant="outline" 
                     size="sm"
                     onClick={() => window.open('/premium', '_blank')}
-                    className="bg-primary text-primary border-0 text-xs"
+                    className="bg-primary text-white border-0 text-xs"
                   >
                     <Icon name="Crown" size={14} className="mr-1" />
                     Premium (1000)
                   </Button>
                 </div>
-                <p className="text-sm text-primary">{t.watchNote}</p>
+                <p className="text-sm text-blue-600">{t.watchNote}</p>
                 <a 
                   href={`https://t.me/${t.telegramLink}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-xs text-primary hover:text-primary/90 underline cursor-pointer transition-colors"
+                  className="text-xs text-blue-600 hover:text-blue-700 underline cursor-pointer transition-colors block"
                 >
                   t.me/{t.telegramLink}
                 </a>
-                <p className="text-sm text-primary italic">{t.yourVideoAppears}</p>
+                <p className="text-sm text-blue-600 italic">{t.yourVideoAppears}</p>
               </div>
 
 {/* Блок успешного завершения всех видео */}
