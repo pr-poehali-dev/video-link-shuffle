@@ -273,10 +273,13 @@ const Index = () => {
     if (!availableVideos[index]) return;
     
     const video = availableVideos[index];
-    const playerUrl = videoService.getVideoPlayerUrl(video.url);
     
+    // ВАЖНО: Открываем оригинальную ссылку в новой вкладке для засчитывания просмотров
+    window.open(video.url, '_blank');
+    
+    // Затем открываем модальное окно для отслеживания прогресса
     setCurrentVideo(index);
-    setCurrentPlayerUrl(playerUrl);
+    setCurrentPlayerUrl(video.url);
     setIsPlayerOpen(true);
     setWatchProgress(0);
     setCanSkip(false);
@@ -371,7 +374,7 @@ const Index = () => {
           </div>
           
           <Select value={language} onValueChange={handleLanguageChange}>
-            <SelectTrigger className="w-32 border-2 border-gray-200 rounded-xl">
+            <SelectTrigger className="w-32 border-2 border-primary rounded-xl">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -391,16 +394,16 @@ const Index = () => {
         <div className="max-w-[585px] mx-auto space-y-6">
           {/* Description */}
           <div className="text-center space-y-3 animate-fade-in">
-            <h2 className="text-lg text-gray-700">{t.description}</h2>
+            <h2 className="text-lg text-primary">{t.description}</h2>
           </div>
 
           {/* How it works */}
           <Accordion type="single" collapsible className="w-full">
-            <AccordionItem value="how-it-works" className="border border-gray-200 rounded-xl px-4">
-              <AccordionTrigger className="text-left text-gray-600 hover:text-blue-600">
+            <AccordionItem value="how-it-works" className="border border-primary rounded-xl px-4">
+              <AccordionTrigger className="text-left text-primary hover:text-primary">
                 {t.howItWorks}
               </AccordionTrigger>
-              <AccordionContent className="text-gray-500 pb-4">
+              <AccordionContent className="text-primary pb-4">
                 Система взаимного продвижения: ты смотришь видео других пользователей, а они смотрят твои. Каждое видео получает 100 просмотров и исчезает из каталога.
               </AccordionContent>
             </AccordionItem>
@@ -416,11 +419,11 @@ const Index = () => {
                 onChange={(e) => handleUrlChange(e.target.value)}
                 className={`h-14 text-lg rounded-xl border-2 transition-colors ${
                   videoUrl && !isValidVideoUrl(videoUrl) 
-                    ? 'border-red-400 focus:border-red-500' 
-                    : 'border-gray-200 focus:border-blue-500'
+                    ? 'border-primary focus:border-primary' 
+                    : 'border-primary focus:border-primary'
                 }`}
               />
-              <Icon name="Link" className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+              <Icon name="Link" className="absolute right-4 top-1/2 transform -translate-y-1/2 text-primary" size={20} />
             </div>
 
             <Button
@@ -428,8 +431,8 @@ const Index = () => {
               disabled={!isButtonActive || showVideos}
               className={`w-full h-12 text-base rounded-xl font-semibold transition-all duration-300 ${
                 isButtonActive && !showVideos
-                  ? 'bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white shadow-lg hover:shadow-xl transform hover:scale-105' 
-                  : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                  ? 'bg-primary hover:bg-primary/90 text-primary shadow-lg hover:shadow-xl transform hover:scale-105' 
+                  : 'bg-primary/30 text-primary/50 cursor-not-allowed'
               }`}
             >
               {showCaptcha && !captchaVerified ? t.goButton : t.button}
@@ -441,12 +444,12 @@ const Index = () => {
 
           {/* Captcha */}
           {showCaptcha && !captchaVerified && (
-            <Card className="animate-scale-in border-2 border-blue-200">
+            <Card className="animate-scale-in border-2 border-primary">
               <CardContent className="p-6 text-center">
-                <div className="w-16 h-16 bg-gradient-to-r from-green-400 to-blue-500 rounded-full mx-auto mb-4 flex items-center justify-center">
-                  <Icon name="Check" size={24} className="text-white" />
+                <div className="w-16 h-16 bg-primary rounded-full mx-auto mb-4 flex items-center justify-center">
+                  <Icon name="Check" size={24} className="text-primary" />
                 </div>
-                <p className="text-gray-600">Капча пройдена! Нажмите кнопку еще раз.</p>
+                <p className="text-primary">Капча пройдена! Нажмите кнопку еще раз.</p>
               </CardContent>
             </Card>
           )}
@@ -456,27 +459,27 @@ const Index = () => {
             <div className="space-y-6 animate-fade-in">
               <div className="text-center space-y-2">
                 <div className="flex justify-between items-center mb-4">
-                  <h3 className="text-lg font-semibold text-gray-800">{t.watchFirst}</h3>
+                  <h3 className="text-lg font-semibold text-primary">{t.watchFirst}</h3>
                   <Button 
                     variant="outline" 
                     size="sm"
                     onClick={() => window.open('/premium', '_blank')}
-                    className="bg-gradient-to-r from-blue-500 to-purple-600 text-white border-0 text-xs"
+                    className="bg-primary text-primary border-0 text-xs"
                   >
                     <Icon name="Crown" size={14} className="mr-1" />
                     Premium (1000)
                   </Button>
                 </div>
-                <p className="text-sm text-gray-600">{t.watchNote}</p>
-                <p className="text-xs text-blue-600">t.me/{t.telegramLink}</p>
-                <p className="text-sm text-gray-500 italic">{t.yourVideoAppears}</p>
+                <p className="text-sm text-primary">{t.watchNote}</p>
+                <p className="text-xs text-primary">t.me/{t.telegramLink}</p>
+                <p className="text-sm text-primary italic">{t.yourVideoAppears}</p>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {availableVideos.map((video, index) => (
                   <Card 
                     key={video.id} 
-                    className="cursor-pointer hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-2 border-gray-200 hover:border-blue-300"
+                    className="cursor-pointer hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-2 border-primary hover:border-primary"
                     onClick={() => openPlayer(index)}
                   >
                     <CardContent className="p-0">
@@ -487,20 +490,20 @@ const Index = () => {
                           className="w-full h-32 object-cover"
                         />
                         <div className="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center">
-                          <div className="w-12 h-12 bg-white bg-opacity-90 rounded-full flex items-center justify-center">
-                            <Icon name="Play" size={20} className="text-gray-800 ml-0.5" />
+                          <div className="w-12 h-12 bg-primary bg-opacity-90 rounded-full flex items-center justify-center">
+                            <Icon name="Play" size={20} className="text-primary ml-0.5" />
                           </div>
                         </div>
-                        <div className="absolute bottom-2 right-2 bg-black bg-opacity-70 text-white text-xs px-2 py-1 rounded">
+                        <div className="absolute bottom-2 right-2 bg-primary bg-opacity-70 text-primary text-xs px-2 py-1 rounded">
                           {video.views}/{userSession && adminService.getUserActivity(userSession.id)?.isPremium ? '1000' : '100'}
                         </div>
-                        <div className="absolute top-2 left-2 bg-blue-500 text-white text-xs px-2 py-1 rounded">
+                        <div className="absolute top-2 left-2 bg-primary text-primary text-xs px-2 py-1 rounded">
                           {video.platform.toUpperCase()}
                         </div>
                       </div>
                       <div className="p-3">
-                        <h4 className="font-medium text-gray-800 text-sm">{video.title}</h4>
-                        <p className="text-xs text-gray-500 mt-1">
+                        <h4 className="font-medium text-primary text-sm">{video.title}</h4>
+                        <p className="text-xs text-primary mt-1">
                           {Math.max(0, (userSession && adminService.getUserActivity(userSession.id)?.isPremium ? 1000 : 100) - video.views)} просмотров до удаления
                         </p>
                       </div>
@@ -523,42 +526,35 @@ const Index = () => {
             <DialogTitle className="text-center">
               Видео {currentVideo + 1} из {availableVideos.length}
               {availableVideos[currentVideo] && (
-                <span className="block text-sm font-normal text-gray-500 mt-1">
+                <span className="block text-sm font-normal text-primary mt-1">
                   {availableVideos[currentVideo].platform.toUpperCase()}
                 </span>
               )}
             </DialogTitle>
           </DialogHeader>
           <div className="space-y-4">
-            <div className="aspect-video bg-gray-900 rounded-lg overflow-hidden">
-              {currentPlayerUrl ? (
-                <iframe
-                  src={currentPlayerUrl}
-                  className="w-full h-full"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                  title="Video Player"
-                />
-              ) : (
-                <div className="w-full h-full flex items-center justify-center text-white text-center">
-                  <div>
-                    <Icon name="Play" size={48} className="mx-auto mb-2" />
-                    <p>Загрузка видео...</p>
-                    <p className="text-sm text-gray-300 mt-2">
-                      Обход геоблокировок активен
-                    </p>
-                  </div>
+            <div className="aspect-video bg-white border border-primary rounded-lg overflow-hidden">
+              <div className="w-full h-full flex items-center justify-center text-primary text-center">
+                <div>
+                  <Icon name="ExternalLink" size={48} className="mx-auto mb-2" />
+                  <p className="font-semibold">Видео открыто в новой вкладке</p>
+                  <p className="text-sm text-primary mt-2">
+                    Просмотр засчитается на платформе
+                  </p>
+                  <p className="text-xs text-primary mt-1">
+                    Посмотрите минимум 15 секунд
+                  </p>
                 </div>
-              )}
+              </div>
             </div>
             
             <div className="space-y-2">
-              <div className="flex justify-between text-sm text-gray-600">
+              <div className="flex justify-between text-sm text-primary">
                 <span>Минимальный просмотр: 15 секунд</span>
                 <span>{Math.round(watchProgress)}%</span>
               </div>
               <Progress value={watchProgress} className="h-2" />
-              <p className="text-xs text-gray-500 text-center">
+              <p className="text-xs text-primary text-center">
                 {canSkip ? 
                   'Минимальное время просмотрено! Сделайте репост для продолжения.' : 
                   `Ещё ${15 - Math.round(watchProgress * 15 / 100)} секунд для разблокировки репоста`
@@ -582,7 +578,7 @@ const Index = () => {
               <Button 
                 disabled={!canSkip || !hasReposted}
                 onClick={handleNextVideo}
-                className="bg-gradient-to-r from-blue-500 to-purple-600 text-white w-full"
+                className="bg-primary text-primary w-full"
               >
                 {!canSkip ? 
                   `Ещё ${15 - Math.round(watchProgress * 15 / 100)} сек` : 
