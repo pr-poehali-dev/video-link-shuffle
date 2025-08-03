@@ -54,7 +54,7 @@ const Premium = () => {
   };
 
   return (
-    <div className="min-h-screen bg-primary p-4">
+    <div className="min-h-screen bg-white p-4">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold mb-2 text-primary">Премиум тариф PodLet</h1>

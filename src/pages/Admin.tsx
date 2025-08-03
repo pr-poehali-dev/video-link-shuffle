@@ -123,7 +123,7 @@ const Admin = () => {
 
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen bg-primary flex items-center justify-center">
+      <div className="min-h-screen bg-white flex items-center justify-center">
         <Card className="w-full max-w-md">
           <CardHeader>
             <CardTitle className="text-center">Админ-панель PodLet</CardTitle>
@@ -146,7 +146,7 @@ const Admin = () => {
   }
 
   return (
-    <div className="min-h-screen bg-primary">
+    <div className="min-h-screen bg-white">
       <div className="container mx-auto px-4 py-6">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-3xl font-bold text-primary">Админ-панель PodLet</h1>

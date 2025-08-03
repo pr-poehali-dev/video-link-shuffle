@@ -4,89 +4,89 @@
 
 @layer base {
   :root {
-    --background: 161 171 253;
-    --foreground: 161 171 253;
+    --background: 255 255 255;
+    --foreground: 159 170 252;
 
-    --card: 161 171 253;
-    --card-foreground: 161 171 253;
+    --card: 255 255 255;
+    --card-foreground: 159 170 252;
 
-    --popover: 161 171 253;
-    --popover-foreground: 161 171 253;
+    --popover: 255 255 255;
+    --popover-foreground: 159 170 252;
 
-    --primary: 161 171 253;
-    --primary-foreground: 161 171 253;
+    --primary: 159 170 252;
+    --primary-foreground: 255 255 255;
 
-    --secondary: 161 171 253;
-    --secondary-foreground: 161 171 253;
+    --secondary: 159 170 252;
+    --secondary-foreground: 255 255 255;
 
-    --muted: 161 171 253;
-    --muted-foreground: 161 171 253;
+    --muted: 255 255 255;
+    --muted-foreground: 159 170 252;
 
-    --accent: 161 171 253;
-    --accent-foreground: 161 171 253;
+    --accent: 255 255 255;
+    --accent-foreground: 159 170 252;
 
-    --destructive: 161 171 253;
-    --destructive-foreground: 161 171 253;
+    --destructive: 159 170 252;
+    --destructive-foreground: 255 255 255;
 
-    --border: 161 171 253;
-    --input: 161 171 253;
-    --ring: 161 171 253;
+    --border: 159 170 252;
+    --input: 159 170 252;
+    --ring: 159 170 252;
 
     --radius: 0.5rem;
 
-    --sidebar-background: 161 171 253;
+    --sidebar-background: 255 255 255;
 
-    --sidebar-foreground: 161 171 253;
+    --sidebar-foreground: 159 170 252;
 
-    --sidebar-primary: 161 171 253;
+    --sidebar-primary: 159 170 252;
 
-    --sidebar-primary-foreground: 161 171 253;
+    --sidebar-primary-foreground: 255 255 255;
 
-    --sidebar-accent: 161 171 253;
+    --sidebar-accent: 255 255 255;
 
-    --sidebar-accent-foreground: 161 171 253;
+    --sidebar-accent-foreground: 159 170 252;
 
-    --sidebar-border: 161 171 253;
+    --sidebar-border: 159 170 252;
 
-    --sidebar-ring: 161 171 253;
+    --sidebar-ring: 159 170 252;
   }
 
   .dark {
-    --background: 161 171 253;
-    --foreground: 161 171 253;
+    --background: 255 255 255;
+    --foreground: 159 170 252;
 
-    --card: 161 171 253;
-    --card-foreground: 161 171 253;
+    --card: 255 255 255;
+    --card-foreground: 159 170 252;
 
-    --popover: 161 171 253;
-    --popover-foreground: 161 171 253;
+    --popover: 255 255 255;
+    --popover-foreground: 159 170 252;
 
-    --primary: 161 171 253;
-    --primary-foreground: 161 171 253;
+    --primary: 159 170 252;
+    --primary-foreground: 255 255 255;
 
-    --secondary: 161 171 253;
-    --secondary-foreground: 161 171 253;
+    --secondary: 159 170 252;
+    --secondary-foreground: 255 255 255;
 
-    --muted: 161 171 253;
-    --muted-foreground: 161 171 253;
+    --muted: 255 255 255;
+    --muted-foreground: 159 170 252;
 
-    --accent: 161 171 253;
-    --accent-foreground: 161 171 253;
+    --accent: 255 255 255;
+    --accent-foreground: 159 170 252;
 
-    --destructive: 161 171 253;
-    --destructive-foreground: 161 171 253;
+    --destructive: 159 170 252;
+    --destructive-foreground: 255 255 255;
 
-    --border: 161 171 253;
-    --input: 161 171 253;
-    --ring: 161 171 253;
-    --sidebar-background: 161 171 253;
-    --sidebar-foreground: 161 171 253;
-    --sidebar-primary: 161 171 253;
-    --sidebar-primary-foreground: 161 171 253;
-    --sidebar-accent: 161 171 253;
-    --sidebar-accent-foreground: 161 171 253;
-    --sidebar-border: 161 171 253;
-    --sidebar-ring: 161 171 253;
+    --border: 159 170 252;
+    --input: 159 170 252;
+    --ring: 159 170 252;
+    --sidebar-background: 255 255 255;
+    --sidebar-foreground: 159 170 252;
+    --sidebar-primary: 159 170 252;
+    --sidebar-primary-foreground: 255 255 255;
+    --sidebar-accent: 255 255 255;
+    --sidebar-accent-foreground: 159 170 252;
+    --sidebar-border: 159 170 252;
+    --sidebar-ring: 159 170 252;
   }
 }
 
@@ -117,15 +117,15 @@
   }
 
   .btn-inactive {
-    color: rgb(161 171 253 / 0.5);
-    border-color: rgb(161 171 253 / 0.5);
-    background-color: rgb(161 171 253 / 0.1);
+    color: rgb(159 170 252 / 0.5);
+    border-color: rgb(159 170 252 / 0.5);
+    background-color: rgb(159 170 252 / 0.1);
   }
 
   .btn-inactive:hover {
-    color: rgb(161 171 253 / 0.7);
-    border-color: rgb(161 171 253 / 0.7);
-    background-color: rgb(161 171 253 / 0.15);
+    color: rgb(159 170 252 / 0.7);
+    border-color: rgb(159 170 252 / 0.7);
+    background-color: rgb(159 170 252 / 0.15);
   }
 
   @keyframes fadeIn {
