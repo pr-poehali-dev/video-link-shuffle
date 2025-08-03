@@ -87,8 +87,8 @@ const Stats = () => {
               <CardTitle className="text-sm">Мои видео</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-blue-600">{userVideos.length}</div>
-              <p className="text-xs text-gray-500">Всего добавлено</p>
+              <div className="text-2xl font-bold text-primary">{userVideos.length}</div>
+              <p className="text-xs text-primary">Всего добавлено</p>
             </CardContent>
           </Card>
 
@@ -97,8 +97,8 @@ const Stats = () => {
               <CardTitle className="text-sm">Просмотры</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-green-600">{totalViews}</div>
-              <p className="text-xs text-gray-500">Всего просмотров</p>
+              <div className="text-2xl font-bold text-primary">{totalViews}</div>
+              <p className="text-xs text-primary">Всего просмотров</p>
             </CardContent>
           </Card>
 
@@ -107,8 +107,8 @@ const Stats = () => {
               <CardTitle className="text-sm">Рефералы</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-purple-600">{referralStats?.totalReferrals || 0}</div>
-              <p className="text-xs text-gray-500">Приглашено друзей</p>
+              <div className="text-2xl font-bold text-primary">{referralStats?.totalReferrals || 0}</div>
+              <p className="text-xs text-primary">Приглашено друзей</p>
             </CardContent>
           </Card>
         </div>
@@ -120,8 +120,8 @@ const Stats = () => {
           </CardHeader>
           <CardContent>
             {userVideos.length === 0 ? (
-              <div className="text-center text-gray-500 py-8">
-                <Icon name="Video" size={48} className="mx-auto mb-4 text-gray-300" />
+              <div className="text-center text-primary py-8">
+                <Icon name="Video" size={48} className="mx-auto mb-4 text-primary" />
                 <p>Вы еще не добавили ни одного видео</p>
                 <Button className="mt-4" onClick={() => window.location.href = '/'}>
                   Добавить первое видео
@@ -142,14 +142,14 @@ const Stats = () => {
                         <Badge variant="outline" className="text-xs">
                           {video.platform.toUpperCase()}
                         </Badge>
-                        <span className="text-xs text-gray-500">
+                        <span className="text-xs text-primary">
                           Добавлено: {new Date(video.createdAt).toLocaleDateString('ru')}
                         </span>
                       </div>
                     </div>
                     <div className="text-right">
                       <div className="text-lg font-bold">{video.views}</div>
-                      <div className="text-xs text-gray-500">просмотров</div>
+                      <div className="text-xs text-primary">просмотров</div>
                       <Progress 
                         value={(video.views / 100) * 100} 
                         className="w-20 h-2 mt-1"
@@ -172,7 +172,7 @@ const Stats = () => {
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="p-4 bg-blue-50 rounded-lg">
+              <div className="p-4 bg-background border border-primary rounded-lg">
                 <h3 className="font-medium mb-2">Мой реферальный код</h3>
                 <div className="flex items-center space-x-2">
                   <code className="bg-white px-3 py-1 rounded border text-lg font-mono">
@@ -184,12 +184,12 @@ const Stats = () => {
                 </div>
               </div>
               
-              <div className="p-4 bg-green-50 rounded-lg">
+              <div className="p-4 bg-background border border-primary rounded-lg">
                 <h3 className="font-medium mb-2">Бонусы</h3>
-                <div className="text-2xl font-bold text-green-600">
+                <div className="text-2xl font-bold text-primary">
                   +{referralStats?.totalBonus || 0}
                 </div>
-                <div className="text-sm text-gray-600">дополнительных просмотров</div>
+                <div className="text-sm text-primary">дополнительных просмотров</div>
               </div>
             </div>
 

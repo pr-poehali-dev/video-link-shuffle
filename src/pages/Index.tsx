@@ -449,7 +449,7 @@ const Index = () => {
               className={`w-full h-12 text-base rounded-xl font-semibold transition-all duration-300 ${
                 isButtonActive && !showVideos
                   ? 'bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg hover:shadow-xl transform hover:scale-105' 
-                  : 'bg-muted text-muted-foreground cursor-not-allowed'
+                  : 'bg-background border border-primary text-primary cursor-not-allowed'
               }`}
             >
               {showCaptcha && !captchaVerified ? t.goButton : t.button}
