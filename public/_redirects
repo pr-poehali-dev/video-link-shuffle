@@ -1,1 +1,7 @@
-/*    /index.html   200
+# Явные маршруты для SPA
+/premium    /index.html   200
+/admin      /index.html   200  
+/stats      /index.html   200
+
+# Общий fallback для всех остальных маршрутов
+/*          /index.html   200
