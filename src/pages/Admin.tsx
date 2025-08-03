@@ -123,7 +123,7 @@ const Admin = () => {
 
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 flex items-center justify-center">
+      <div className="min-h-screen bg-primary flex items-center justify-center">
         <Card className="w-full max-w-md">
           <CardHeader>
             <CardTitle className="text-center">Админ-панель PodLet</CardTitle>
@@ -146,10 +146,10 @@ const Admin = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
+    <div className="min-h-screen bg-primary">
       <div className="container mx-auto px-4 py-6">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-3xl font-bold">Админ-панель PodLet</h1>
+          <h1 className="text-3xl font-bold text-primary">Админ-панель PodLet</h1>
           <div className="flex gap-2">
             <Button variant="outline" onClick={exportData}>
               <Icon name="Download" size={16} className="mr-2" />
@@ -174,7 +174,7 @@ const Admin = () => {
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">{stats.totalUsers}</div>
-                <p className="text-xs text-gray-500">
+                <p className="text-xs text-primary">
                   Активных сегодня: {stats.activeUsersToday}
                 </p>
               </CardContent>
@@ -186,7 +186,7 @@ const Admin = () => {
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">{stats.totalVideos}</div>
-                <p className="text-xs text-gray-500">
+                <p className="text-xs text-primary">
                   Добавлено сегодня: {stats.videosAddedToday}
                 </p>
               </CardContent>
@@ -198,7 +198,7 @@ const Admin = () => {
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">{stats.premiumUsers}</div>
-                <p className="text-xs text-gray-500">
+                <p className="text-xs text-primary">
                   Всего просмотров: {stats.totalViews}
                 </p>
               </CardContent>
@@ -210,7 +210,7 @@ const Admin = () => {
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">{stats.totalRevenue} ₽</div>
-                <p className="text-xs text-gray-500">
+                <p className="text-xs text-primary">
                   За все время
                 </p>
               </CardContent>
@@ -435,7 +435,7 @@ const Admin = () => {
                       <select 
                         value={newBanner.position} 
                         onChange={(e) => setNewBanner(prev => ({ ...prev, position: e.target.value as Banner['position'] }))}
-                        className="w-full p-2 border rounded"
+                        className="w-full p-2 border border-primary rounded text-primary bg-primary"
                       >
                         {positions.map(pos => (
                           <option key={pos.id} value={pos.id}>
@@ -487,7 +487,7 @@ const Admin = () => {
                 </CardHeader>
                 <CardContent>
                   {banners.length === 0 ? (
-                    <div className="text-center text-gray-500 py-8">
+                    <div className="text-center text-primary py-8">
                       Баннеров пока нет. Добавьте первый!
                     </div>
                   ) : (
@@ -501,13 +501,13 @@ const Admin = () => {
                           />
                           <div className="flex-1">
                             <h3 className="font-medium">{banner.title}</h3>
-                            <div className="text-sm text-gray-500">
+                            <div className="text-sm text-primary">
                               {positions.find(p => p.id === banner.position)?.name}
                             </div>
                             {banner.linkUrl && (
-                              <div className="text-xs text-blue-600 truncate max-w-xs">{banner.linkUrl}</div>
+                              <div className="text-xs text-primary truncate max-w-xs">{banner.linkUrl}</div>
                             )}
-                            <div className="text-xs text-gray-400 mt-1">
+                            <div className="text-xs text-primary mt-1">
                               Создан: {new Date(banner.createdAt).toLocaleDateString('ru')}
                             </div>
                           </div>
@@ -547,14 +547,14 @@ const Admin = () => {
                     {positions.map(position => (
                       <div key={position.id} className="p-4 border rounded-lg">
                         <h3 className="font-medium">{position.name}</h3>
-                        <p className="text-sm text-gray-600 mt-1">{position.description}</p>
-                        <div className="text-xs text-gray-500 mt-2">
+                        <p className="text-sm text-primary mt-1">{position.description}</p>
+                        <div className="text-xs text-primary mt-2">
                           Рекомендуемый размер: {position.recommended}
                         </div>
-                        <div className="text-xs text-gray-500">
+                        <div className="text-xs text-primary">
                           Максимум: {position.maxWidth}x{position.maxHeight}px
                         </div>
-                        <div className="text-xs text-blue-600 mt-1">
+                        <div className="text-xs text-primary mt-1">
                           Активных баннеров: {banners.filter(b => b.position === position.id && b.isActive).length}
                         </div>
                       </div>

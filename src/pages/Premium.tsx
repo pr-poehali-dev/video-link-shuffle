@@ -54,11 +54,11 @@ const Premium = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 p-4">
+    <div className="min-h-screen bg-primary p-4">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold mb-2">Премиум тариф PodLet</h1>
-          <p className="text-gray-600">Получите в 10 раз больше просмотров для своих видео</p>
+          <h1 className="text-3xl font-bold mb-2 text-primary">Премиум тариф PodLet</h1>
+          <p className="text-primary">Получите в 10 раз больше просмотров для своих видео</p>
         </div>
 
         <div className="grid md:grid-cols-2 gap-6 mb-8">
@@ -67,26 +67,26 @@ const Premium = () => {
             <CardHeader>
               <CardTitle className="flex items-center justify-between">
                 <span>Бесплатный</span>
-                <Badge className="bg-gray-100 text-gray-800">Free</Badge>
+                <Badge className="bg-primary text-primary">Free</Badge>
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="text-3xl font-bold">0 ₽</div>
               <ul className="space-y-2">
                 <li className="flex items-center">
-                  <Icon name="Check" size={16} className="text-green-500 mr-2" />
+                  <Icon name="Check" size={16} className="text-primary mr-2" />
                   До 100 просмотров на видео
                 </li>
                 <li className="flex items-center">
-                  <Icon name="Check" size={16} className="text-green-500 mr-2" />
+                  <Icon name="Check" size={16} className="text-primary mr-2" />
                   Все популярные платформы
                 </li>
                 <li className="flex items-center">
-                  <Icon name="Check" size={16} className="text-green-500 mr-2" />
+                  <Icon name="Check" size={16} className="text-primary mr-2" />
                   Обход геоблокировок
                 </li>
                 <li className="flex items-center">
-                  <Icon name="X" size={16} className="text-gray-400 mr-2" />
+                  <Icon name="X" size={16} className="text-primary mr-2" />
                   Приоритетная обработка
                 </li>
               </ul>
@@ -97,45 +97,45 @@ const Premium = () => {
           </Card>
 
           {/* Премиум тариф */}
-          <Card className="border-2 border-blue-500 relative">
+          <Card className="border-2 border-primary relative">
             <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-              <span className="bg-blue-500 text-white px-4 py-1 rounded-full text-sm">
+              <span className="bg-primary text-primary px-4 py-1 rounded-full text-sm">
                 Рекомендуем
               </span>
             </div>
             <CardHeader>
               <CardTitle className="flex items-center justify-between">
                 <span>Премиум</span>
-                <Badge className="bg-blue-500 text-white">Premium</Badge>
+                <Badge className="bg-primary text-primary">Premium</Badge>
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="text-3xl font-bold">299 ₽</div>
               <ul className="space-y-2">
                 <li className="flex items-center">
-                  <Icon name="Check" size={16} className="text-green-500 mr-2" />
+                  <Icon name="Check" size={16} className="text-primary mr-2" />
                   До 1000 просмотров на видео
                 </li>
                 <li className="flex items-center">
-                  <Icon name="Check" size={16} className="text-green-500 mr-2" />
+                  <Icon name="Check" size={16} className="text-primary mr-2" />
                   Все популярные платформы
                 </li>
                 <li className="flex items-center">
-                  <Icon name="Check" size={16} className="text-green-500 mr-2" />
+                  <Icon name="Check" size={16} className="text-primary mr-2" />
                   Обход геоблокировок
                 </li>
                 <li className="flex items-center">
-                  <Icon name="Check" size={16} className="text-green-500 mr-2" />
+                  <Icon name="Check" size={16} className="text-primary mr-2" />
                   Приоритетная обработка
                 </li>
                 <li className="flex items-center">
-                  <Icon name="Check" size={16} className="text-green-500 mr-2" />
+                  <Icon name="Check" size={16} className="text-primary mr-2" />
                   Техподдержка 24/7
                 </li>
               </ul>
               <Button 
                 onClick={() => setIsPaymentOpen(true)}
-                className="w-full bg-blue-500 hover:bg-blue-600"
+                className="w-full bg-primary hover:bg-primary/90"
               >
                 Купить премиум
               </Button>
@@ -151,31 +151,31 @@ const Premium = () => {
           <CardContent>
             <div className="grid md:grid-cols-3 gap-6">
               <div className="text-center">
-                <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3">
-                  <Icon name="TrendingUp" size={24} className="text-blue-600" />
+                <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center mx-auto mb-3">
+                  <Icon name="TrendingUp" size={24} className="text-primary" />
                 </div>
                 <h3 className="font-semibold mb-2">В 10 раз больше просмотров</h3>
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-primary">
                   Ваши видео будут набирать до 1000 просмотров вместо 100
                 </p>
               </div>
               
               <div className="text-center">
-                <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3">
-                  <Icon name="Zap" size={24} className="text-blue-600" />
+                <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center mx-auto mb-3">
+                  <Icon name="Zap" size={24} className="text-primary" />
                 </div>
                 <h3 className="font-semibold mb-2">Приоритетная обработка</h3>
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-primary">
                   Ваши видео появляются в каталоге в первую очередь
                 </p>
               </div>
               
               <div className="text-center">
-                <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3">
-                  <Icon name="Headphones" size={24} className="text-blue-600" />
+                <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center mx-auto mb-3">
+                  <Icon name="Headphones" size={24} className="text-primary" />
                 </div>
                 <h3 className="font-semibold mb-2">Поддержка 24/7</h3>
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-primary">
                   Решаем любые вопросы в течение нескольких минут
                 </p>
               </div>
@@ -191,21 +191,21 @@ const Premium = () => {
           <CardContent className="space-y-4">
             <div>
               <h4 className="font-semibold mb-1">Как происходит оплата?</h4>
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-primary">
                 Принимаем банковские карты и переводы по СБП. Оплата проходит мгновенно.
               </p>
             </div>
             
             <div>
               <h4 className="font-semibold mb-1">Когда активируется премиум?</h4>
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-primary">
                 Сразу после успешной оплаты. Все ваши новые видео будут набирать до 1000 просмотров.
               </p>
             </div>
             
             <div>
               <h4 className="font-semibold mb-1">Можно ли вернуть деньги?</h4>
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-primary">
                 Да, в течение 7 дней после покупки, если не использовали премиум-функции.
               </p>
             </div>
@@ -223,7 +223,7 @@ const Premium = () => {
           <div className="space-y-4">
             <div className="text-center">
               <div className="text-2xl font-bold mb-1">299 ₽</div>
-              <p className="text-sm text-gray-600">Единоразовый платеж</p>
+              <p className="text-sm text-primary">Единоразовый платеж</p>
             </div>
 
             <div className="space-y-3">
@@ -260,7 +260,7 @@ const Premium = () => {
                     onChange={(e) => setCardNumber(formatCardNumber(e.target.value))}
                     maxLength={19}
                   />
-                  <p className="text-xs text-gray-500 mt-1">
+                  <p className="text-xs text-primary mt-1">
                     Для теста используйте: 2204 3203 2626 8200
                   </p>
                 </div>
@@ -283,7 +283,7 @@ const Premium = () => {
               {isProcessing ? 'Обработка...' : 'Оплатить 299 ₽'}
             </Button>
 
-            <p className="text-xs text-gray-500 text-center">
+            <p className="text-xs text-primary text-center">
               Нажимая "Оплатить", вы соглашаетесь с условиями использования
             </p>
           </div>
