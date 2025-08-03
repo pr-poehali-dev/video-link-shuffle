@@ -8,6 +8,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Progress } from '@/components/ui/progress';
 import Icon from '@/components/ui/icon';
 import { videoService } from '@/lib/videoService';
+import { adminService } from '@/lib/adminService';
 import { Video, VideoQueue, UserSession } from '@/types/video';
 
 const Index = () => {
@@ -80,6 +81,12 @@ const Index = () => {
     // Загружаем доступные видео
     const videos = videoService.getVideosForViewing();
     setAvailableVideos(videos);
+    
+    // Регистрируем активность пользователя
+    adminService.updateUserActivity(session.id, {
+      sessionId: session.id,
+      lastActivity: new Date()
+    });
   }, []);
 
   const handleUrlChange = (value: string) => {
@@ -118,6 +125,12 @@ const Index = () => {
       const updatedSession = { ...userSession, videoUrl };
       videoService.updateSession(updatedSession);
       setUserSession(updatedSession);
+      
+      // Регистрируем добавление видео
+      adminService.updateUserActivity(userSession.id, {
+        videoUrl,
+        lastActivity: new Date()
+      });
     }
   };
 
@@ -163,7 +176,18 @@ const Index = () => {
     const currentVideoData = availableVideos[currentVideo];
     if (currentVideoData) {
       // Увеличиваем счетчик просмотров
-      videoService.incrementView(currentVideoData.id);
+      const user = adminService.getUserActivity(userSession.id);
+      const maxViews = user?.isPremium ? 1000 : 100;
+      
+      if (currentVideoData.views < maxViews) {
+        videoService.incrementView(currentVideoData.id);
+        
+        // Обновляем статистику пользователя
+        adminService.updateUserActivity(userSession.id, {
+          videosWatched: (user?.videosWatched || 0) + 1,
+          videosShared: hasReposted ? (user?.videosShared || 0) + 1 : (user?.videosShared || 0)
+        });
+      }
       
       // Обновляем очередь пользователя
       const updatedQueue = {
@@ -284,7 +308,18 @@ const Index = () => {
           {showVideos && (
             <div className="space-y-6 animate-fade-in">
               <div className="text-center space-y-2">
-                <h3 className="text-xl font-semibold text-gray-800">{t.watchFirst}</h3>
+                <div className="flex justify-between items-center mb-4">
+                  <h3 className="text-lg font-semibold text-gray-800">{t.watchFirst}</h3>
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    onClick={() => window.open('/premium', '_blank')}
+                    className="bg-gradient-to-r from-blue-500 to-purple-600 text-white border-0 text-xs"
+                  >
+                    <Icon name="Crown" size={14} className="mr-1" />
+                    Premium (1000)
+                  </Button>
+                </div>
                 <p className="text-sm text-gray-600">{t.watchNote}</p>
                 <p className="text-xs text-blue-600">t.me/{t.telegramLink}</p>
                 <p className="text-sm text-gray-500 italic">{t.yourVideoAppears}</p>
@@ -310,7 +345,7 @@ const Index = () => {
                           </div>
                         </div>
                         <div className="absolute bottom-2 right-2 bg-black bg-opacity-70 text-white text-xs px-2 py-1 rounded">
-                          {video.views}/100
+                          {video.views}/{userSession && adminService.getUserActivity(userSession.id)?.isPremium ? '1000' : '100'}
                         </div>
                         <div className="absolute top-2 left-2 bg-blue-500 text-white text-xs px-2 py-1 rounded">
                           {video.platform.toUpperCase()}
@@ -319,7 +354,7 @@ const Index = () => {
                       <div className="p-3">
                         <h4 className="font-medium text-gray-800 text-sm">{video.title}</h4>
                         <p className="text-xs text-gray-500 mt-1">
-                          {Math.max(0, 100 - video.views)} просмотров до удаления
+                          {Math.max(0, (userSession && adminService.getUserActivity(userSession.id)?.isPremium ? 1000 : 100) - video.views)} просмотров до удаления
                         </p>
                       </div>
                     </CardContent>
