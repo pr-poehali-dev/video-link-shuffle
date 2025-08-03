@@ -376,19 +376,17 @@ const Index = () => {
           {/* Video Catalog */}
           {showVideos && (
             <div className="space-y-6 animate-fade-in">
-              <div className="text-left space-y-3">
+              <div className="text-left space-y-3 max-w-[585px]">
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  onClick={() => window.open('/premium', '_blank')}
+                  className="w-full bg-primary text-white border-0 text-xs h-10"
+                >
+                  <Icon name="Crown" size={14} className="mr-1" />
+                  Premium (1000)
+                </Button>
                 <h3 className="text-lg font-semibold text-blue-600">{t.watchFirst}</h3>
-                <div className="flex justify-start">
-                  <Button 
-                    variant="outline" 
-                    size="sm"
-                    onClick={() => window.open('/premium', '_blank')}
-                    className="bg-primary text-white border-0 text-xs"
-                  >
-                    <Icon name="Crown" size={14} className="mr-1" />
-                    Premium (1000)
-                  </Button>
-                </div>
                 <p className="text-sm text-blue-600">{t.watchNote}</p>
                 <a 
                   href={`https://t.me/${t.telegramLink}`}
