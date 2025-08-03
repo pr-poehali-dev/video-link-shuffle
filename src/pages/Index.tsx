@@ -202,16 +202,12 @@ const Index = () => {
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
       {/* Header */}
       <header className="flex justify-between items-center p-6">
-        <div className="flex items-center space-x-2">
-          <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
-            <Icon name="Play" size={16} className="text-white" />
-          </div>
-          <div>
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              {t.logo}
-            </h1>
-            <p className="text-sm text-gray-500">{t.subtitle}</p>
-          </div>
+        <div className="flex items-center space-x-3">
+          <img 
+            src="https://cdn.poehali.dev/files/184752ef-65b4-48a2-8f29-7f318c1dc91a.png" 
+            alt="PodLet Logo"
+            className="h-12 w-auto"
+          />
         </div>
         
         <Select value={language} onValueChange={handleLanguageChange}>
