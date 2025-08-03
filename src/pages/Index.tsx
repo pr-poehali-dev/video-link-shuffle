@@ -168,8 +168,8 @@ const Index = () => {
     const video = availableVideos[currentVideo];
     if (!video) return;
     
-    // Открываем Telegram для репоста
-    const telegramUrl = `https://t.me/share/url?url=${encodeURIComponent(video.url)}&text=${encodeURIComponent('Смотри крутое видео!')}`;
+    // Открываем конкретную группу Telegram
+    const telegramUrl = `https://t.me/podlet_ru`;
     window.open(telegramUrl, '_blank');
     setHasReposted(true);
   };
@@ -227,14 +227,14 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
+    <div className="min-h-screen bg-white">
       {/* Header */}
       <header className="flex justify-between items-center p-6">
         <div className="flex items-center space-x-3">
           <img 
             src="https://cdn.poehali.dev/files/184752ef-65b4-48a2-8f29-7f318c1dc91a.png" 
             alt="PodLet Logo"
-            className="h-12 w-auto rounded-md"
+            className="h-16 md:h-20 w-auto rounded-md"
           />
         </div>
         
@@ -329,7 +329,7 @@ const Index = () => {
                 <p className="text-sm text-gray-500 italic">{t.yourVideoAppears}</p>
               </div>
 
-              <div className="grid grid-cols-1 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {availableVideos.map((video, index) => (
                   <Card 
                     key={video.id} 
