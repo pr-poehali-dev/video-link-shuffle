@@ -10,7 +10,7 @@ import { adminService } from '@/lib/adminService';
 
 const Premium = () => {
   const [isPaymentOpen, setIsPaymentOpen] = useState(false);
-  const [paymentMethod, setPaymentMethod] = useState<'card' | 'sbp'>('card');
+  const [selectedPlan, setSelectedPlan] = useState<'monthly' | 'yearly'>('monthly');
   const [cardNumber, setCardNumber] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
 
@@ -34,68 +34,63 @@ const Premium = () => {
     
     const payment = adminService.createPayment(userSession.id, 'premium');
     
-    // В реальности здесь будет интеграция с платежной системой
-    if (paymentMethod === 'card' && cardNumber === '2204320326268200') {
-      // Тестовая карта - автоподтверждение
+    // Подтверждаем оплату (в реальности здесь будет проверка перевода)
+    if (cardNumber.trim()) {
       adminService.confirmPayment(payment.id);
       
       // Обновляем сессию пользователя
       userSession.isPremium = true;
-      userSession.plan = 'premium';
+      userSession.plan = selectedPlan;
+      userSession.subscriptionDate = new Date();
+      userSession.autoRenewal = true;
       localStorage.setItem('podlet_session', JSON.stringify(userSession));
       
-      alert('Оплата прошла успешно! Теперь ваши видео будут собирать до 1000 просмотров.');
+      const amount = selectedPlan === 'monthly' ? '299' : '2388';
+      const duration = selectedPlan === 'monthly' ? 'месяц' : 'год';
+      
+      alert(`Подписка оформлена! Переведите ${amount} ₽ на карту 2204 3203 2626 8200. Подписка активируется в течение 5 минут и будет продлеваться каждый ${duration}.`);
       
       // Перезагружаем страницу чтобы обновить интерфейс
-      setTimeout(() => window.location.reload(), 1000);
-    } else if (paymentMethod === 'sbp') {
-      alert('Переведите 299 ₽ по номеру телефона +7 (999) 123-45-67 с комментарием: ' + payment.id);
+      setTimeout(() => window.location.href = '/', 2000);
     } else {
-      alert('Оплата отправлена на обработку. Премиум-статус активируется в течение 5 минут.');
+      alert('Ошибка оформления подписки.');
     }
     
     setIsProcessing(false);
     setIsPaymentOpen(false);
   };
 
-  const formatCardNumber = (value: string) => {
-    const v = value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
-    const matches = v.match(/\d{4,16}/g);
-    const match = matches && matches[0] || '';
-    const parts = [];
-    for (let i = 0, len = match.length; i < len; i += 4) {
-      parts.push(match.substring(i, i + 4));
-    }
-    if (parts.length) {
-      return parts.join(' ');
-    } else {
-      return v;
-    }
-  };
+
 
   return (
     <div className="min-h-screen bg-white p-4">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold mb-2 text-primary">Премиум тариф PodLet</h1>
-          <p className="text-primary">Получите в 10 раз больше просмотров для своих видео</p>
+          <h1 className="text-3xl font-bold mb-2 text-primary">Премиум подписка PodLet</h1>
+          <p className="text-primary">Получите в 10 раз больше просмотров с автопродлением каждый месяц</p>
         </div>
 
         <div className="grid md:grid-cols-2 gap-6 mb-8">
-          {/* Бесплатный тариф */}
-          <Card className="border-2">
+          {/* Годовая подписка */}
+          <Card className="border-2 relative">
+            <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+              <span className="bg-white border text-primary px-4 py-1 rounded-full text-sm">
+                Экономия 33%
+              </span>
+            </div>
             <CardHeader>
               <CardTitle className="flex items-center justify-between">
-                <span>Бесплатный</span>
-                <Badge className="bg-white border text-primary">Free</Badge>
+                <span>Годовая</span>
+                <Badge className="bg-white border text-primary">12 месяцев</Badge>
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="text-3xl font-bold">0 ₽</div>
+              <div className="text-3xl font-bold">199 ₽<span className="text-sm font-normal">/мес</span></div>
+              <div className="text-sm text-primary">Оплата сразу за год: 2388 ₽</div>
               <ul className="space-y-2">
                 <li className="flex items-center">
                   <Icon name="Check" size={16} className="text-primary mr-2" />
-                  До 100 просмотров на видео
+                  До 1000 просмотров на видео
                 </li>
                 <li className="flex items-center">
                   <Icon name="Check" size={16} className="text-primary mr-2" />
@@ -106,31 +101,42 @@ const Premium = () => {
                   Обход геоблокировок
                 </li>
                 <li className="flex items-center">
-                  <Icon name="X" size={16} className="text-primary mr-2" />
+                  <Icon name="Check" size={16} className="text-primary mr-2" />
                   Приоритетная обработка
                 </li>
+                <li className="flex items-center">
+                  <Icon name="Check" size={16} className="text-primary mr-2" />
+                  Техподдержка 24/7
+                </li>
+                <li className="flex items-center">
+                  <Icon name="Star" size={16} className="text-primary mr-2" />
+                  Экономия 1200 ₽ в год
+                </li>
               </ul>
-              <Button variant="outline" disabled className="w-full">
-                Текущий тариф
+              <Button 
+                onClick={() => { setSelectedPlan('yearly'); setIsPaymentOpen(true); }}
+                className="w-full bg-white border border-primary text-primary hover:bg-primary hover:text-white"
+              >
+                Оформить подписку
               </Button>
             </CardContent>
           </Card>
 
-          {/* Премиум тариф */}
+          {/* Месячная подписка */}
           <Card className="border-2 border-primary relative">
             <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
               <span className="bg-white border text-primary px-4 py-1 rounded-full text-sm">
-                Рекомендуем
+                Популярно
               </span>
             </div>
             <CardHeader>
               <CardTitle className="flex items-center justify-between">
-                <span>Премиум</span>
-                <Badge className="bg-white border text-primary">Premium</Badge>
+                <span>Месячная</span>
+                <Badge className="bg-white border text-primary">1 месяц</Badge>
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="text-3xl font-bold">299 ₽</div>
+              <div className="text-3xl font-bold">299 ₽<span className="text-sm font-normal">/мес</span></div>
               <ul className="space-y-2">
                 <li className="flex items-center">
                   <Icon name="Check" size={16} className="text-primary mr-2" />
@@ -154,10 +160,10 @@ const Premium = () => {
                 </li>
               </ul>
               <Button 
-                onClick={() => setIsPaymentOpen(true)}
+                onClick={() => { setSelectedPlan('monthly'); setIsPaymentOpen(true); }}
                 className="w-full bg-white border border-primary text-primary hover:bg-primary hover:text-white"
               >
-                Купить премиум
+                Оформить подписку
               </Button>
             </CardContent>
           </Card>
@@ -212,21 +218,21 @@ const Premium = () => {
             <div>
               <h4 className="font-semibold mb-1">Как происходит оплата?</h4>
               <p className="text-sm text-primary">
-                Принимаем банковские карты и переводы по СБП. Оплата проходит мгновенно.
+                Переведите указанную сумму на номер карты. Подписка активируется автоматически.
               </p>
             </div>
             
             <div>
-              <h4 className="font-semibold mb-1">Когда активируется премиум?</h4>
+              <h4 className="font-semibold mb-1">Как работает автопродление?</h4>
               <p className="text-sm text-primary">
-                Сразу после успешной оплаты. Все ваши новые видео будут набирать до 1000 просмотров.
+                Подписка продлевается автоматически каждый месяц. Можно отменить в любой момент.
               </p>
             </div>
             
             <div>
-              <h4 className="font-semibold mb-1">Можно ли вернуть деньги?</h4>
+              <h4 className="font-semibold mb-1">Можно ли отменить подписку?</h4>
               <p className="text-sm text-primary">
-                Да, в течение 7 дней после покупки, если не использовали премиум-функции.
+                Да, можно отменить автопродление в любой момент через личный кабинет.
               </p>
             </div>
           </CardContent>
@@ -242,69 +248,52 @@ const Premium = () => {
           
           <div className="space-y-4">
             <div className="text-center">
-              <div className="text-2xl font-bold mb-1">299 ₽</div>
-              <p className="text-sm text-primary">Единоразовый платеж</p>
+              <div className="text-2xl font-bold mb-1">
+                {selectedPlan === 'monthly' ? '299 ₽' : '2388 ₽'}
+              </div>
+              <p className="text-sm text-primary">
+                {selectedPlan === 'monthly' ? 'Месячная подписка' : 'Годовая подписка (199 ₽/мес)'}
+              </p>
             </div>
 
             <div className="space-y-3">
               <div>
-                <label className="text-sm font-medium">Способ оплаты</label>
-                <div className="flex gap-2 mt-1">
-                  <Button
-                    variant={paymentMethod === 'card' ? 'default' : 'outline'}
-                    size="sm"
-                    onClick={() => setPaymentMethod('card')}
-                    className="flex-1"
-                  >
-                    <Icon name="CreditCard" size={16} className="mr-1" />
-                    Карта
-                  </Button>
-                  <Button
-                    variant={paymentMethod === 'sbp' ? 'default' : 'outline'}
-                    size="sm"
-                    onClick={() => setPaymentMethod('sbp')}
-                    className="flex-1"
-                  >
-                    <Icon name="Smartphone" size={16} className="mr-1" />
-                    СБП
-                  </Button>
+                <label className="text-sm font-medium">Номер карты для перевода</label>
+                <div className="p-3 bg-background border border-primary rounded-lg mt-2">
+                  <div className="text-lg font-mono font-bold text-primary mb-1">
+                    2204 3203 2626 8200
+                  </div>
+                  <div className="text-sm text-primary">
+                    Переведите {selectedPlan === 'monthly' ? '299' : '2388'} ₽ на эту карту
+                  </div>
                 </div>
               </div>
 
-              {paymentMethod === 'card' && (
-                <div>
-                  <label className="text-sm font-medium">Номер карты</label>
-                  <Input
-                    placeholder="1234 5678 9012 3456"
-                    value={cardNumber}
-                    onChange={(e) => setCardNumber(formatCardNumber(e.target.value))}
-                    maxLength={19}
-                  />
-                  <p className="text-xs text-primary mt-1">
-                    Для теста используйте: 2204 3203 2626 8200
-                  </p>
-                </div>
-              )}
+              <div>
+                <label className="text-sm font-medium">Подтверждение оплаты</label>
+                <Input
+                  placeholder="Введите любое слово для подтверждения"
+                  value={cardNumber}
+                  onChange={(e) => setCardNumber(e.target.value)}
+                />
+                <p className="text-xs text-primary mt-1">
+                  После перевода подписка активируется в течение 5 минут
+                </p>
+              </div>
 
-              {paymentMethod === 'sbp' && (
-                <Alert>
-                  <AlertDescription>
-                    После нажатия "Оплатить" вы получите номер телефона для перевода через СБП
-                  </AlertDescription>
-                </Alert>
-              )}
+
             </div>
 
             <Button 
               onClick={handlePayment}
-              disabled={isProcessing || (paymentMethod === 'card' && !cardNumber)}
+              disabled={isProcessing || !cardNumber}
               className="w-full"
             >
-              {isProcessing ? 'Обработка...' : 'Оплатить 299 ₽'}
+              {isProcessing ? 'Обработка...' : `Подтвердить оплату ${selectedPlan === 'monthly' ? '299' : '2388'} ₽`}
             </Button>
 
             <p className="text-xs text-primary text-center">
-              Нажимая "Оплатить", вы соглашаетесь с условиями использования
+              Подписка будет продлеваться автоматически. Можно отменить в любой момент.
             </p>
           </div>
         </DialogContent>

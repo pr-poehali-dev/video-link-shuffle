@@ -383,12 +383,6 @@ const Index = () => {
           </div>
           
           <div className="flex items-center gap-4">
-            <a href="/admin" className="text-xs text-foreground hover:text-primary transition-colors">
-              Админ
-            </a>
-            <a href="/premium" className="text-xs text-foreground hover:text-primary transition-colors">
-              Премиум
-            </a>
             <Select value={language} onValueChange={handleLanguageChange}>
             <SelectTrigger className="w-32 border-2 border-primary rounded-xl">
               <SelectValue />
