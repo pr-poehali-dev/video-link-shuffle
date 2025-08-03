@@ -128,6 +128,7 @@ class VideoService {
       default:
         return url;
     }
+    */
   }
 
   private detectPlatform(url: string): Video['platform'] {
