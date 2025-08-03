@@ -385,7 +385,7 @@ const Index = () => {
                 <Button 
                   variant="outline" 
                   size="sm"
-                  onClick={() => window.open('/premium', '_blank')}
+                  onClick={() => window.location.href = '/premium'}
                   className="w-full bg-primary text-white border-0 text-xs h-10"
                 >
                   <Icon name="Crown" size={14} className="mr-1" />
