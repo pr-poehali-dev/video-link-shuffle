@@ -398,7 +398,7 @@ const Index = () => {
                   <Button 
                     variant="outline" 
                     size="sm"
-                    onClick={() => window.location.href = '/premium'}
+                    onClick={() => window.location.href = `/premium?lang=${language}`}
                     className="w-full bg-primary text-white border-0 text-xs h-10"
                   >
                     <Icon name="Crown" size={14} className="mr-1" />

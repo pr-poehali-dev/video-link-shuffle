@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -7,12 +7,63 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Badge } from '@/components/ui/badge';
 import Icon from '@/components/ui/icon';
 import { adminService } from '@/lib/adminService';
+import { getTranslation, Language } from '@/lib/translations';
+import SEOHead from '@/components/SEOHead';
 
 const Premium = () => {
   const [isPaymentOpen, setIsPaymentOpen] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState<'monthly' | 'yearly'>('monthly');
   const [cardNumber, setCardNumber] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
+  const [language, setLanguage] = useState('ru');
+
+  // Читаем язык из URL параметров
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const langParam = urlParams.get('lang');
+    if (langParam) {
+      setLanguage(langParam);
+    }
+  }, []);
+
+  // Переводы для Premium страницы
+  const t = {
+    title: language === 'en' ? 'Premium Subscription PodLet' : 
+           language === 'es' ? 'Suscripción Premium PodLet' :
+           language === 'fr' ? 'Abonnement Premium PodLet' :
+           language === 'de' ? 'Premium-Abonnement PodLet' :
+           'Премиум подписка PodLet',
+    subtitle: language === 'en' ? 'Get 10x more views with auto-reposts every month' :
+             language === 'es' ? 'Consigue 10 veces más visualizaciones con reposteos automáticos cada mes' :
+             language === 'fr' ? 'Obtenez 10 fois plus de vues avec des republications automatiques chaque mois' :
+             language === 'de' ? 'Erhalten Sie 10x mehr Aufrufe mit automatischen Reposts jeden Monat' :
+             'Получите в 10 раз больше просмотров с авторепостами каждый месяц',
+    monthly: language === 'en' ? 'Monthly' : 
+            language === 'es' ? 'Mensual' :
+            language === 'fr' ? 'Mensuel' :
+            language === 'de' ? 'Monatlich' :
+            'Месячный',
+    yearly: language === 'en' ? 'Yearly' :
+           language === 'es' ? 'Anual' :
+           language === 'fr' ? 'Annuel' :
+           language === 'de' ? 'Jährlich' :
+           'Годовой',
+    popular: language === 'en' ? 'Popular' :
+            language === 'es' ? 'Popular' :
+            language === 'fr' ? 'Populaire' :
+            language === 'de' ? 'Beliebt' :
+            'Популярно',
+    economy: language === 'en' ? 'Save 33%' :
+            language === 'es' ? 'Ahorra 33%' :
+            language === 'fr' ? 'Économisez 33%' :
+            language === 'de' ? 'Sparen Sie 33%' :
+            'Экономия 33%',
+    orderSubscription: language === 'en' ? 'Order Subscription' :
+                      language === 'es' ? 'Solicitar Suscripción' :
+                      language === 'fr' ? 'Commander un Abonnement' :
+                      language === 'de' ? 'Abonnement Bestellen' :
+                      'Оформить подписку'
+  };
 
   const handlePayment = async () => {
     setIsProcessing(true);
@@ -63,24 +114,26 @@ const Premium = () => {
 
 
   return (
-    <div className="min-h-screen bg-white p-4">
-      <div className="max-w-4xl mx-auto">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold mb-2 text-primary">Премиум подписка PodLet</h1>
-          <p className="text-primary">Получите в 10 раз больше просмотров с автопродлением каждый месяц</p>
-        </div>
+    <>
+      <SEOHead language={language as Language} page="premium" />
+      <div className="min-h-screen bg-white p-4">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-8">
+            <h1 className="text-3xl font-bold mb-2 text-primary">{t.title}</h1>
+            <p className="text-primary">{t.subtitle}</p>
+          </div>
 
         <div className="grid md:grid-cols-2 gap-6 mb-8">
           {/* Годовая подписка */}
           <Card className="border-2 relative">
             <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
               <span className="bg-white border text-primary px-4 py-1 rounded-full text-sm">
-                Экономия 33%
+                {t.economy}
               </span>
             </div>
             <CardHeader>
               <CardTitle className="flex items-center justify-between">
-                <span>Годовая</span>
+                <span>{t.yearly}</span>
                 <Badge className="bg-white border text-primary">12 месяцев</Badge>
               </CardTitle>
             </CardHeader>
@@ -117,7 +170,7 @@ const Premium = () => {
                 onClick={() => { setSelectedPlan('yearly'); setIsPaymentOpen(true); }}
                 className="w-full bg-white border border-primary text-primary hover:bg-primary hover:text-white"
               >
-                Оформить подписку
+                {t.orderSubscription}
               </Button>
             </CardContent>
           </Card>
@@ -126,12 +179,12 @@ const Premium = () => {
           <Card className="border-2 border-primary relative">
             <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
               <span className="bg-white border text-primary px-4 py-1 rounded-full text-sm">
-                Популярно
+                {t.popular}
               </span>
             </div>
             <CardHeader>
               <CardTitle className="flex items-center justify-between">
-                <span>Месячная</span>
+                <span>{t.monthly}</span>
                 <Badge className="bg-white border text-primary">1 месяц</Badge>
               </CardTitle>
             </CardHeader>
@@ -163,7 +216,7 @@ const Premium = () => {
                 onClick={() => { setSelectedPlan('monthly'); setIsPaymentOpen(true); }}
                 className="w-full bg-white border border-primary text-primary hover:bg-primary hover:text-white"
               >
-                Оформить подписку
+                {t.orderSubscription}
               </Button>
             </CardContent>
           </Card>
@@ -298,7 +351,8 @@ const Premium = () => {
           </div>
         </DialogContent>
       </Dialog>
-    </div>
+      </div>
+    </>
   );
 };
 

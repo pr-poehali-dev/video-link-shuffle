@@ -109,7 +109,18 @@
     animation: scaleIn 0.3s ease-out;
   }
 
-  /* Принудительно убираем все жёлтые фоны */
+  /* КРИТИЧЕСКИ ВАЖНО: Принудительно убираем ВСЕ жёлтые фоны */
+  * {
+    /* Переопределяем любые желтые стили от внешних скриптов */
+    background-color: inherit !important;
+  }
+
+  body,
+  html,
+  #root {
+    background-color: rgb(255 255 255) !important;
+  }
+
   .bg-primary {
     background-color: rgb(59 130 246) !important;
   }
@@ -122,12 +133,29 @@
     background-color: rgb(255 255 255) !important;
   }
 
-  /* Убираем любые возможные жёлтые фоны */
-  [style*="yellow"],
-  [style*="#ff"],
-  [class*="yellow"] {
+  /* МОЩНОЕ переопределение ВСЕХ желтых стилей */
+  [style*="yellow" i],
+  [style*="#ffff" i],
+  [style*="rgb(255, 255, 0)" i],
+  [style*="rgb(255,255,0)" i],
+  [style*="hsl(60" i],
+  [class*="yellow" i],
+  [class*="amber" i],
+  *[style*="background" i][style*="yellow" i],
+  *[style*="background-color" i][style*="yellow" i] {
     background-color: rgb(255 255 255) !important;
     border: 1px solid rgb(59 130 246) !important;
+  }
+
+  /* Переопределяем конкретные желтые цвета */
+  *[style*="background-color: yellow" i],
+  *[style*="background-color:#ffff00" i],
+  *[style*="background-color:#ff0" i],
+  *[style*="background: yellow" i],
+  *[style*="background:#ffff00" i],
+  *[style*="background:#ff0" i] {
+    background-color: rgb(255 255 255) !important;
+    color: rgb(59 130 246) !important;
   }
 
   /* Принудительно применяем бело-синюю схему */
@@ -148,9 +176,15 @@
     color: rgb(255 255 255) !important;
   }
 
-  /* Гарантируем читаемость при hover */
-  button:hover,
-  .btn:hover {
+  /* Исправляем читаемость текста при hover для ВСЕХ кнопок */
+  button:hover {
+    color: rgb(255 255 255) !important;
+    background-color: rgb(59 130 246) !important;
+  }
+
+  button.bg-primary,
+  .btn.bg-primary {
+    background-color: rgb(59 130 246) !important;
     color: rgb(255 255 255) !important;
   }
 
@@ -161,10 +195,24 @@
   }
 
   /* Исправляем кнопки с outline и ghost вариантами */
+  button[class*="outline"],
+  button[class*="ghost"] {
+    background-color: rgb(255 255 255) !important;
+    color: rgb(59 130 246) !important;
+    border: 1px solid rgb(59 130 246) !important;
+  }
+
   button[class*="outline"]:hover,
   button[class*="ghost"]:hover {
     background-color: rgb(59 130 246) !important;
     color: rgb(255 255 255) !important;
+    border: 1px solid rgb(59 130 246) !important;
+  }
+
+  /* Гарантируем видимость текста в любых кнопках */
+  button span,
+  button * {
+    color: inherit !important;
   }
 
   .btn-inactive {
