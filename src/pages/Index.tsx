@@ -294,14 +294,14 @@ const Index = () => {
       <SEOHead language={language as Language} page="home" />
       <div className="min-h-screen bg-white">
         {/* Header */}
-        <header className="p-6 px-[19px]">
+        <header className="p-6 px-[19px] my-0 py-[35px]">
           <div className="max-w-[585px] mx-auto flex justify-between items-center">
             <div className="flex items-center">
               <a href="/" className="cursor-pointer hover:opacity-80 transition-opacity">
                 <img 
                   src="https://cdn.poehali.dev/files/9ad7404a-82bb-43ea-ab53-440125603703.svg" 
                   alt="PodLet Logo"
-                  className="h-16 md:h-20 w-auto"
+                  className="h-16 md:h-20 w-auto py-0 my-0"
                 />
               </a>
             </div>
