@@ -329,7 +329,7 @@ const Index = () => {
           <div className="max-w-[585px] mx-auto space-y-6">
             {/* Description */}
             <div className="text-center space-y-3 animate-fade-in">
-              <h2 className="text-lg text-primary">{t.description}</h2>
+              <h2 className="text-lg text-[#7b8efd]">{t.description}</h2>
             </div>
 
             {/* How it works */}
