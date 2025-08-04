@@ -148,6 +148,25 @@
     color: rgb(255 255 255) !important;
   }
 
+  /* Гарантируем читаемость при hover */
+  button:hover,
+  .btn:hover {
+    color: rgb(255 255 255) !important;
+  }
+
+  button.bg-primary:hover,
+  .btn.bg-primary:hover {
+    background-color: rgb(37 99 235) !important;
+    color: rgb(255 255 255) !important;
+  }
+
+  /* Исправляем кнопки с outline и ghost вариантами */
+  button[class*="outline"]:hover,
+  button[class*="ghost"]:hover {
+    background-color: rgb(59 130 246) !important;
+    color: rgb(255 255 255) !important;
+  }
+
   .btn-inactive {
     color: rgb(59 130 246 / 0.6);
     border-color: rgb(59 130 246 / 0.6);

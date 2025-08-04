@@ -457,13 +457,13 @@ const Index = () => {
                           <div className="absolute bottom-2 right-2 bg-primary/80 text-primary-foreground text-xs px-2 py-1 rounded">
                             {video.views}/{userSession && adminService.getUserActivity(userSession.id)?.isPremium ? '1000' : '100'}
                           </div>
-                          <div className="absolute top-2 left-2 bg-primary text-primary text-xs px-2 py-1 rounded">
+                          <div className="absolute top-2 left-2 bg-primary text-primary-foreground text-xs px-2 py-1 rounded">
                             {video.platform.toUpperCase()}
                           </div>
                         </div>
                         <div className="p-3">
-                          <h4 className="font-medium text-primary text-sm">{video.title}</h4>
-                          <p className="text-xs text-primary mt-1">
+                          <h4 className="font-medium text-foreground text-sm">{video.title}</h4>
+                          <p className="text-xs text-muted-foreground mt-1">
                             {Math.max(0, (userSession && adminService.getUserActivity(userSession.id)?.isPremium ? 1000 : 100) - video.views)} просмотров до удаления
                           </p>
                         </div>
