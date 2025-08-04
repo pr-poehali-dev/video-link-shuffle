@@ -25,12 +25,12 @@ const VideoCard = ({ video, userSession, onClick }: VideoCardProps) => {
             alt={video.title}
             className="w-full h-32 object-cover"
           />
-          <div className="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center">
-            <div className="w-12 h-12 bg-primary/90 rounded-full flex items-center justify-center">
+          <div className="absolute inset-0 flex items-center justify-center mx-[113px] my-9 py-0 rounded-full px-[27px] bg-blue-500">
+            <div className="w-12 h-12 rounded-full flex items-center justify-center bg-blue-500">
               <Icon name="Play" size={20} className="text-primary-foreground ml-0.5" />
             </div>
           </div>
-          <div className="absolute bottom-2 right-2 bg-primary/80 text-primary-foreground text-xs px-2 py-1 rounded">
+          <div className="absolute bottom-2 right-2 text-primary-foreground text-xs px-2 py-1 rounded bg-blue-500">
             {video.views}/{maxViews}
           </div>
           <div className="absolute top-2 left-2 bg-primary text-primary-foreground text-xs px-2 py-1 rounded">
@@ -38,8 +38,8 @@ const VideoCard = ({ video, userSession, onClick }: VideoCardProps) => {
           </div>
         </div>
         <div className="p-3">
-          <h4 className="font-medium text-foreground text-sm">{video.title}</h4>
-          <p className="text-xs text-muted-foreground mt-1">
+          <h4 className="font-medium text-sm text-[#6694fb]">{video.title}</h4>
+          <p className="text-xs mt-1 text-[#6694fb]">
             {remainingViews} просмотров до удаления
           </p>
         </div>
