@@ -334,7 +334,7 @@ const Index = () => {
 
             {/* How it works */}
             <Accordion type="single" collapsible className="w-full">
-              <AccordionItem value="how-it-works" className="border border-primary bg-[#ffffff] mx-0 my-0 py-0 px-[25px] rounded-full">
+              <AccordionItem value="how-it-works" className="border border-primary mx-0 my-0 py-0 px-[25px] rounded-full bg-[#3b5df0]">
                 <AccordionTrigger className="text-left text-primary hover:text-primary">
                   {t.placeholderTitle}
                 </AccordionTrigger>
